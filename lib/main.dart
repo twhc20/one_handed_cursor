@@ -37,18 +37,6 @@ class _CustomCursorWidgetState extends State<CustomCursorWidget> {
       child: Scaffold(
         body: Stack(
           children: [
-            // Your background content goes here
-
-            // Rectangular box
-            Positioned(
-              bottom: 0,
-              right: 0,
-              child: Container(
-                width: boxWidth,
-                height: boxHeight,
-                color: Colors.red,
-              ),
-            ),
 
             // Custom cursor
             Positioned(
