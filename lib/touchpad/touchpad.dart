@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:one_handed_cursor/cursor/cursor_position.dart';
 
 class Touchpad extends StatefulWidget {
   final Function(double, double) onUpdatePosition;
