@@ -7,17 +7,21 @@ class CursorNotifier extends ChangeNotifier {
   double screenWidth = 0;
   double screenHeight = 0;
   double radius;
+  double bottomPadding = 0;
 
   CursorNotifier({this.radius = 10.0});
 
-  void updateScreenSize(double width, double height) {
+  Offset get position => Offset(positionX, positionY);
+
+  void updateScreenSize(double width, double height, double bottomPadding) {
     screenWidth = width;
     screenHeight = height;
+    this.bottomPadding = bottomPadding;
   }
 
   void updatePosition(double x, double y) {
     positionX = x.clamp(0, screenWidth - radius * 2);
-    positionY = y.clamp(0, screenHeight - radius * 2);
+    positionY = y.clamp(0, screenHeight - radius * 2 - bottomPadding);
     notifyListeners();
   }
 }
@@ -31,7 +35,9 @@ class Cursor extends StatelessWidget {
   Widget build(BuildContext context) {
     final cursorNotifier = Provider.of<CursorNotifier>(context);
     final screenSize = MediaQuery.of(context).size;
-    cursorNotifier.updateScreenSize(screenSize.width, screenSize.height);
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
+    cursorNotifier.updateScreenSize(
+        screenSize.width, screenSize.height, bottomPadding);
 
     return Positioned(
       left: cursorNotifier.positionX,

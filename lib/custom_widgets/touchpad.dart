@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class Touchpad extends StatefulWidget {
   final Function(double, double) onUpdatePosition;
+  final Function() onTap;
 
-  Touchpad({super.key, required this.onUpdatePosition});
+  Touchpad({super.key, required this.onUpdatePosition, required this.onTap});
 
   @override
   _TouchpadState createState() => _TouchpadState();

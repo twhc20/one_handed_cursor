@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:one_handed_cursor/custom_widgets/button.dart';
 import 'package:provider/provider.dart';
 
-import 'cursor/cursor.dart';
-import 'touchpad/touchpad.dart';
+import 'custom_widgets/cursor.dart';
+import 'custom_widgets/touchpad.dart';
 
 void main() {
   runApp(
@@ -10,7 +11,10 @@ void main() {
       providers: [
         ChangeNotifierProvider(
           create: (context) => CursorNotifier(),
-        )
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ButtonNotfiier(),
+        ),
       ],
       child: MyApp(),
     ),
@@ -23,8 +27,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  int counter = 0;
-  final buttonKey = GlobalKey();
+  final GlobalKey buttonKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -34,17 +37,10 @@ class _MyAppState extends State<MyApp> {
             title: const Text('Custom Cursor'),
           ),
           body: Stack(children: [
-            Positioned(
-              bottom: 300,
-              right: 100,
-              child: GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () {},
-                child: ElevatedButton(
-                  onPressed: null, // Disable the button's own onPressed event
-                  child: Text('Counter: $counter'),
-                ),
-              ),
+            Button(
+              key: buttonKey,
+              x: 16.0,
+              y: 16.0,
             ),
             const Cursor(),
             Touchpad(
@@ -52,6 +48,7 @@ class _MyAppState extends State<MyApp> {
                 Provider.of<CursorNotifier>(context, listen: false)
                     .updatePosition(x, y);
               },
+              onTap: () {},
             ),
           ])),
     );
