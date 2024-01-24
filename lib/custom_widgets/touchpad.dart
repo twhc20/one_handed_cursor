@@ -4,7 +4,8 @@ class Touchpad extends StatefulWidget {
   final Function(double, double) onUpdatePosition;
   final Function() onTap;
 
-  Touchpad({super.key, required this.onUpdatePosition, required this.onTap});
+  const Touchpad(
+      {super.key, required this.onUpdatePosition, required this.onTap});
 
   @override
   _TouchpadState createState() => _TouchpadState();
@@ -28,6 +29,9 @@ class _TouchpadState extends State<Touchpad> {
             // Notify the parent widget about the updated position
             widget.onUpdatePosition(positionX, positionY);
           });
+        },
+        onTap: () {
+          widget.onTap();
         },
         child: Container(
           width: 250.0,

@@ -17,25 +17,43 @@ class ButtonNotfiier extends ChangeNotifier {
 class Button extends StatelessWidget {
   final double x;
   final double y;
+  final double width;
+  final double height;
   ValueNotifier<int> counter = ValueNotifier(0);
 
-  Button({Key? key, this.x = 0, this.y = 0}) : super(key: key);
+  Button(
+      {Key? key, this.x = 5, this.y = 10, this.width = 100, this.height = 100})
+      : super(key: key);
+
+  Rect getRect() {
+    return Rect.fromLTWH(x, y, width, height);
+  }
+
   @override
   Widget build(BuildContext context) {
     final buttonNotifier = Provider.of<ButtonNotfiier>(context);
     return Positioned(
         left: x,
-        right: y,
+        top: y,
         child: GestureDetector(
           behavior: HitTestBehavior.translucent,
           child: ValueListenableBuilder(
             valueListenable: counter,
             builder: (context, int counter, child) {
-              return ElevatedButton(
-                onPressed: () => buttonNotifier
-                    .increment(), // Disable the button's own onPressed event
-                child:
-                    Text('Counter: ${buttonNotifier.getCounter().toString()}'),
+              return SizedBox(
+                width: width,
+                height: height,
+                child: ElevatedButton(
+                  onPressed: () => buttonNotifier
+                      .increment(), // Disable the button's own onPressed event
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                  ),
+                  child: Text(
+                      'Counter: ${buttonNotifier.getCounter().toString()}'),
+                ),
               );
             },
           ),

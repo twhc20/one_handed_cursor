@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'custom_widgets/cursor.dart';
 import 'custom_widgets/touchpad.dart';
+import 'helper_functions/check_overlap.dart';
 
 void main() {
   runApp(
@@ -16,12 +17,14 @@ void main() {
           create: (context) => ButtonNotfiier(),
         ),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -48,7 +51,18 @@ class _MyAppState extends State<MyApp> {
                 Provider.of<CursorNotifier>(context, listen: false)
                     .updatePosition(x, y);
               },
-              onTap: () {},
+              onTap: () {
+                Rect cursorRect =
+                    Provider.of<CursorNotifier>(context, listen: false).rect;
+                Button button = buttonKey.currentWidget as Button;
+                Rect buttonRect = button.getRect();
+                bool isButtonTapped = checkOverlap(cursorRect, buttonRect);
+                if (isButtonTapped) {
+                  Provider.of<ButtonNotfiier>(context, listen: false)
+                      .increment();
+                }
+                print("Button tapped: $isButtonTapped");
+              },
             ),
           ])),
     );

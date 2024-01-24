@@ -13,6 +13,8 @@ class CursorNotifier extends ChangeNotifier {
 
   Offset get position => Offset(positionX, positionY);
 
+  Rect get rect => Rect.fromLTWH(positionX, positionY, radius * 2, radius * 2);
+
   void updateScreenSize(double width, double height, double bottomPadding) {
     screenWidth = width;
     screenHeight = height;
