@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final counterStateProvider = StateProvider.family((ref, id) => 0);
+final counterStateProvider = StateProvider.family.autoDispose((ref, id) => 0);
 
 class Button extends ConsumerWidget {
   final double x;

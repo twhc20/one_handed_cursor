@@ -13,21 +13,29 @@ class HomePage extends StatelessWidget {
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(children: [
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const BasicCursorPage()));
-                },
-                child: const Text("Basic Cursor and Touchpad")),
+          child: Stack(children: [
+            Positioned(
+              left: 16.0,
+              top: 10.0,
+              child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const BasicCursorPage()));
+                  },
+                  child: const Text("Basic Cursor and Touchpad")),
+            ),
             const Button(
               x: 16.0,
-              y: 16.0,
+              y: 100.0,
               id: '1',
             ),
-            const Button(x: 16.0, y: 36.0, id: '2'),
+            const Button(
+              x: 16.0,
+              y: 250.0,
+              id: '2',
+            ),
           ]),
         ));
   }

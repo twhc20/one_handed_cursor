@@ -74,8 +74,8 @@ class CursorNotifier extends StateNotifier<CursorState> {
   }
 }
 
-final cursorNotifier =
-    StateNotifierProvider<CursorNotifier, CursorState>((ref) => CursorNotifier());
+final cursorNotifier = StateNotifierProvider<CursorNotifier, CursorState>(
+    (ref) => CursorNotifier());
 
 // class CursorWidget extends ConsumerWidget {
 //   final double initialPositionX;
@@ -110,7 +110,6 @@ final cursorNotifier =
 //   }
 // }
 
-
 class CursorWidget extends ConsumerWidget {
   final double initialPositionX;
   final double initialPositionY;
@@ -127,8 +126,8 @@ class CursorWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cursorPosition = ref.watch(cursorNotifier);
 
-    return Stack(
-      children: [Positioned(
+    return Stack(children: [
+      Positioned(
         left: cursorPosition.positionX,
         top: cursorPosition.positionY,
         child: Container(
