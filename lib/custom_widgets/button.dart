@@ -22,6 +22,10 @@ class Button extends ConsumerWidget {
     return Rect.fromLTWH(x, y, width, height);
   }
 
+  onTap(WidgetRef ref) {
+    ref.read(counterStateProvider(id).notifier).state++;
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final value = ref.watch(counterStateProvider(id));
@@ -34,9 +38,9 @@ class Button extends ConsumerWidget {
               width: width,
               height: height,
               child: ElevatedButton(
-                onPressed: () => ref
-                    .read(counterStateProvider(id).notifier)
-                    .state++, 
+                onPressed: () => onTap(ref),
+                    // .read(counterStateProvider(id).notifier)
+                    // .state++, 
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16.0),
@@ -46,4 +50,6 @@ class Button extends ConsumerWidget {
               ),
             )));
   }
+  
+
 }
