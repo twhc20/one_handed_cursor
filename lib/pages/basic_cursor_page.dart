@@ -18,6 +18,7 @@ class BasicCursorPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cursorNotifier =
         ref.read(cursorNotifierProvider(cursorWidget).notifier);
+
     return Scaffold(
         appBar: AppBar(
           title: const Text('Custom Cursor'),

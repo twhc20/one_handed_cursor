@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:one_handed_cursor/custom_widgets/button.dart';
 import 'package:one_handed_cursor/pages/basic_cursor_page.dart';
 
 class HomePage extends StatelessWidget {
@@ -26,15 +25,17 @@ class HomePage extends StatelessWidget {
                   },
                   child: const Text("Basic Cursor and Touchpad")),
             ),
-            const Button(
-              x: 16.0,
-              y: 100.0,
-              id: '1',
-            ),
-            const Button(
-              x: 16.0,
-              y: 250.0,
-              id: '2',
+             Positioned(
+              left: 16.0,
+              top: 100.0,
+              child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => GestureDetector()));
+                  },
+                  child: const Text("Gesture Detector")),
             ),
           ]),
         ));

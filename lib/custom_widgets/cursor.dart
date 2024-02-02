@@ -43,8 +43,8 @@ class CursorWidget extends ConsumerWidget {
 
     return Stack(children: [
       Positioned(
-        left: cursorPosition.positionX.clamp(0, screenSize.width - radius * 2),
-        top: cursorPosition.positionY.clamp(0, screenSize.height - radius * 2),
+        left: cursorPosition.positionX - radius.clamp(0, screenSize.width - radius * 2),
+        top: cursorPosition.positionY - radius.clamp(0, screenSize.height - radius * 2),
         child: Container(
           width: cursorPosition.radius * 2,
           height: cursorPosition.radius * 2,

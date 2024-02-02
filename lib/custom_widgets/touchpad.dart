@@ -8,7 +8,7 @@ class Touchpad extends StatefulWidget {
       {super.key, required this.onUpdatePosition, required this.onTap});
 
   @override
-  _TouchpadState createState() => _TouchpadState();
+  State<Touchpad> createState() => _TouchpadState();
 }
 
 class _TouchpadState extends State<Touchpad> {
