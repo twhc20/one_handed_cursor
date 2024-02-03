@@ -5,7 +5,6 @@ import 'package:one_handed_cursor/unistroke_recogniser/dialogs.dart';
 import 'package:one_handed_cursor/unistroke_recogniser/gestures_templates.dart';
 import 'package:one_handed_cursor/unistroke_recogniser/unistroke_recogniser.dart';
 
-
 var recognizer = DollarRecognizer.withGestures(getTemplates());
 late List<Point> pointsToRecognize;
 
@@ -47,6 +46,22 @@ class _DrawState extends State<Draw> {
                             final result = await Dialogs.inputDialog(
                                 context, "".toString());
                             recognizer.addGesture(result, pointsToRecognize);
+
+                            // Convert points to string
+                            String pointsString = pointsToRecognize
+                                .map((point) =>
+                                    'new Point(${point.x}, ${point.y}),')
+                                .join('\n');
+
+                            // Create the string to write to the file
+                            String fileContent =
+                                'unistrokes.add(new Unistroke("$result", [\n$pointsString\n]));';
+
+                            // Write to the file
+                            final file = File(
+                                r"C:\Users\Timothy Chan\Documents\Flutter Projects\One_Handed_Cursor\one_handed_cursor\lib\unistroke_recogniser\data.txt");
+                            await file.writeAsString(fileContent,
+                                mode: FileMode.append);
                           }),
                       IconButton(
                           icon: const Icon(Icons.clear),
@@ -65,7 +80,7 @@ class _DrawState extends State<Draw> {
         builder: (context) => GestureDetector(
           onPanStart: (details) {
             setState(() {
-              RenderBox? renderBox= context.findRenderObject() as RenderBox;
+              RenderBox? renderBox = context.findRenderObject() as RenderBox;
               pointsToRecognize = List<Point>.empty(growable: true);
               pointsToRecognize.add(Point(
                   renderBox.globalToLocal(details.globalPosition).dx,
@@ -134,9 +149,9 @@ class DrawingPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     for (int i = 0; i < pointsList.length - 1; i++) {
-      canvas.drawLine(pointsList[i].points, pointsList[i + 1].points,
-          pointsList[i].paint);
-        }
+      canvas.drawLine(
+          pointsList[i].points, pointsList[i + 1].points, pointsList[i].paint);
+    }
   }
 
   @override
