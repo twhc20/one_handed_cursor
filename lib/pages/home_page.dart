@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:one_handed_cursor/pages/basic_cursor_page.dart';
+import 'package:one_handed_cursor/pages/gesture_detector_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -33,7 +34,7 @@ class HomePage extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => GestureDetector()));
+                            builder: (context) => const Draw()));
                   },
                   child: const Text("Gesture Detector")),
             ),

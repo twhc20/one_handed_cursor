@@ -1,10 +1,10 @@
-import 'package:one_handed_cursor/unistroke_recogniser/unistroke_recogniser.dart';
 import 'dart:math';
+import 'unistroke_recogniser.dart';
 
 List<Point> resample(List<Point> points, int n) {
   double I = pathLength(points) / (n - 1); // interval length
   double D = 0.0;
-  List<Point> newpoints = List<Point>.empty();
+  List<Point> newpoints = List<Point>.empty(growable: true);
   newpoints.add(points[0]);
   for (int i = 1; i < points.length; i++) {
     Point pt1 = points[i - 1];
@@ -38,7 +38,7 @@ List<Point> rotateBy(List<Point> points, double radians) {
   Point c = centroid(points);
   double cosValue = cos(radians);
   double sinValue = sin(radians);
-  List<Point> newpoints = List<Point>.empty();
+  List<Point> newpoints = List<Point>.empty(growable: true);
   for (int i = 0; i < points.length; i++) {
     double qx =
         (points[i].x - c.x) * cosValue - (points[i].y - c.y) * sinValue + c.x;
@@ -52,7 +52,7 @@ List<Point> rotateBy(List<Point> points, double radians) {
 List<Point> scaleTo(List<Point> points, double size) {
   // non-uniform scale; assumes 2D gestures (i.e., no lines)
   Rectangle B = boundingBox(points);
-  List<Point> newpoints = List<Point>.empty();
+  List<Point> newpoints = List<Point>.empty(growable: true);
   for (int i = 0; i < points.length; i++) {
     double qx = points[i].x * (size / B.width);
     double qy = points[i].y * (size / B.height);
@@ -63,7 +63,7 @@ List<Point> scaleTo(List<Point> points, double size) {
 
 List<Point> translateTo(List<Point> points, Point pt) {
   Point c = centroid(points);
-  List<Point> newpoints = List<Point>.empty();
+  List<Point> newpoints = List<Point>.empty(growable: true);
   for (int i = 0; i < points.length; i++) {
     double qx = points[i].x + pt.x - c.x;
     double qy = points[i].y + pt.y - c.y;
@@ -124,7 +124,7 @@ double distanceAtBestAngle(
 
 double distanceAtAngle(List<Point> points, T, double radians) {
   var newpoints = rotateBy(points, radians);
-  return pathDistance(newpoints, T.Points);
+  return pathDistance(newpoints, T.points);
 }
 
 Point centroid(List<Point> points) {
