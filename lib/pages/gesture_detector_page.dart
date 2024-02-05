@@ -45,23 +45,8 @@ class _DrawState extends State<Draw> {
                           onPressed: () async {
                             final result = await Dialogs.inputDialog(
                                 context, "".toString());
+
                             recognizer.addGesture(result, pointsToRecognize);
-
-                            // Convert points to string
-                            String pointsString = pointsToRecognize
-                                .map((point) =>
-                                    'new Point(${point.x}, ${point.y}),')
-                                .join('\n');
-
-                            // Create the string to write to the file
-                            String fileContent =
-                                'unistrokes.add(new Unistroke("$result", [\n$pointsString\n]));';
-
-                            // Write to the file
-                            final file = File(
-                                r"C:\Users\Timothy Chan\Documents\Flutter Projects\One_Handed_Cursor\one_handed_cursor\lib\unistroke_recogniser\data.txt");
-                            await file.writeAsString(fileContent,
-                                mode: FileMode.append);
                           }),
                       IconButton(
                           icon: const Icon(Icons.clear),
