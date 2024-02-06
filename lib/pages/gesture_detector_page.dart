@@ -8,14 +8,14 @@ import 'package:one_handed_cursor/unistroke_recogniser/unistroke_recogniser.dart
 var recognizer = DollarRecognizer.withGestures(getTemplates());
 late List<Point> pointsToRecognize;
 
-class Draw extends StatefulWidget {
-  const Draw({super.key});
+class GestureDetectorPage extends StatefulWidget {
+  const GestureDetectorPage({super.key});
 
   @override
-  State<Draw> createState() => _DrawState();
+  State<GestureDetectorPage> createState() => _GestureDetectorPageState();
 }
 
-class _DrawState extends State<Draw> {
+class _GestureDetectorPageState extends State<GestureDetectorPage> {
   Color selectedColor = Colors.black;
   double strokeWidth = 3.0;
   List<DrawingPoints> points = List<DrawingPoints>.empty(growable: true);

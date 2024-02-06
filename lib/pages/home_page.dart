@@ -26,7 +26,7 @@ class HomePage extends StatelessWidget {
                   },
                   child: const Text("Basic Cursor and Touchpad")),
             ),
-             Positioned(
+            Positioned(
               left: 16.0,
               top: 100.0,
               child: ElevatedButton(
@@ -34,7 +34,7 @@ class HomePage extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const Draw()));
+                            builder: (context) => const GestureDetectorPage()));
                   },
                   child: const Text("Gesture Detector")),
             ),
