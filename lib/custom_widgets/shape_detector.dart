@@ -36,8 +36,6 @@ class ShapeDetector extends StatefulWidget {
   final double opacity;
   final StrokeCap strokeCap;
   
-  
-
   const ShapeDetector(
       {super.key,
       required this.selectedColor,
