@@ -12,6 +12,7 @@ final double angleRange = deg2Rad(45.0);
 final double anglePrecision = deg2Rad(2.0);
 final double phi = 0.5 * (-1.0 + sqrt(5.0)); // Golden Ratio
 
+/// (x,y) coordinates
 class Point {
   double x, y;
 

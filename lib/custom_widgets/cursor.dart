@@ -15,7 +15,7 @@ class CursorState {
 // final cursorNotifier = StateNotifierProvider<CursorNotifier, CursorState>(
 //     (ref) => CursorNotifier());
 
-final cursorNotifierProvider = StateNotifierProvider.family.autoDispose<CursorNotifier, CursorState, CursorWidget>(
+final cursorNotifierProvider = StateNotifierProvider.family<CursorNotifier, CursorState, CursorWidget>(
   (ref, cursorWidget) => CursorNotifier(
     cursorWidget.initialPositionX,
     cursorWidget.initialPositionY,

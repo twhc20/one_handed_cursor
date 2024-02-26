@@ -5,8 +5,8 @@ import 'package:one_handed_cursor/custom_widgets/cursor.dart';
 import 'package:one_handed_cursor/custom_widgets/touchpad.dart';
 
 final buttons = [
-  const Button(id: '3', x: 16.0, y: 100.0),
-  const Button(id: '4', x: 16.0, y: 250.0),
+  const Button(id: '1', x: 16.0, y: 100.0),
+  const Button(id: '2', x: 16.0, y: 250.0),
 ];
 
 class BasicCursorPage extends ConsumerWidget {

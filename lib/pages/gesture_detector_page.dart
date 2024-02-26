@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:one_handed_cursor/custom_widgets/old_shape_detector.dart';
 import 'package:one_handed_cursor/custom_widgets/shape_detector.dart';
 import 'package:one_handed_cursor/unistroke_recogniser/gestures_templates.dart';
 import 'package:one_handed_cursor/unistroke_recogniser/unistroke_recogniser.dart';
@@ -25,7 +26,7 @@ class _GestureDetectorPageState extends State<GestureDetectorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ShapeDetector(
+        body: OldShapeDetector(
             selectedColor: selectedColor,
             strokeWidth: strokeWidth,
             points: points,

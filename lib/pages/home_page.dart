@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:one_handed_cursor/pages/basic_cursor_page.dart';
+import 'package:one_handed_cursor/pages/generate_cursor_page.dart';
 import 'package:one_handed_cursor/pages/gesture_detector_page.dart';
 
 class HomePage extends StatelessWidget {
@@ -37,6 +38,18 @@ class HomePage extends StatelessWidget {
                             builder: (context) => const GestureDetectorPage()));
                   },
                   child: const Text("Gesture Detector")),
+            ),
+             Positioned(
+              left: 16.0,
+              top: 190.0,
+              child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const GenerateCursorPage()));
+                  },
+                  child: const Text("Generate Cursor")),
             ),
           ]),
         ));
