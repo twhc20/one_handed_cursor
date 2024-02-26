@@ -12,9 +12,6 @@ class CursorState {
       {this.positionX = 0, this.positionY = 0, this.radius = 10.0});
 }
 
-// final cursorNotifier = StateNotifierProvider<CursorNotifier, CursorState>(
-//     (ref) => CursorNotifier());
-
 final cursorNotifierProvider = StateNotifierProvider.family<CursorNotifier, CursorState, CursorWidget>(
   (ref, cursorWidget) => CursorNotifier(
     cursorWidget.initialPositionX,

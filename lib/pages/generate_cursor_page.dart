@@ -16,8 +16,6 @@ final buttons = [
 class GenerateCursorPage extends ConsumerStatefulWidget {
   const GenerateCursorPage({super.key});
 
- 
-
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
       _GenerateCursorPageState();

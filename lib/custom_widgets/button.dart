@@ -39,8 +39,6 @@ class Button extends ConsumerWidget {
               height: height,
               child: ElevatedButton(
                 onPressed: () => onTap(ref),
-                    // .read(counterStateProvider(id).notifier)
-                    // .state++, 
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16.0),
@@ -50,6 +48,4 @@ class Button extends ConsumerWidget {
               ),
             )));
   }
-  
-
 }

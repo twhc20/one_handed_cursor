@@ -169,7 +169,15 @@ class ScreenHelper {
     }
   }
 
-  Offset getTrackpadOffset(String shape, List<Point> points) {
-    return Offset.zero;
+  Rect getTouchpadRect(String shape, List<Point> points) {
+
+    List<Point> vertices = getVertices(points);
+
+    double left = vertices[0].x;
+    double top = vertices[0].y;
+    double right = vertices[4].x;
+    double bottom = vertices[4].y;
+
+    return Rect.fromLTRB(left, top, right, bottom);
   }
 }
