@@ -7,7 +7,25 @@ double distanceBetweenTwoPoints(Point a, Point b) {
   return sqrt(pow(b.x - a.x, 2) + pow(b.y - a.y, 2));
 }
 
-//make a ecludian distance between two points function i beg
+/// returns the vertices of the rectangle [upperLeft, upperRight, bottomLeft, bottomRight]
+List<Point> getVertices(List<Point> points) {
+  if (points.isEmpty) {
+    return [];
+  }
+
+  double maxX = points.map((point) => point.x).reduce(max);
+  double maxY = points.map((point) => point.y).reduce(max);
+  double minX = points.map((point) => point.x).reduce(min);
+  double minY = points.map((point) => point.y).reduce(min);
+
+  return [
+    Point(minX, minY),
+    Point(maxX, minY),
+    Point(minX, maxY),
+    Point(maxX, maxY)
+  ];
+}
+
 Quadrant? getQuadrantFromRectangle(
     List<Point> points, Quadrant a, Quadrant b, Quadrant c, Quadrant d) {
   if (points.isEmpty) {
@@ -16,17 +34,7 @@ Quadrant? getQuadrantFromRectangle(
 
   Point firstPoint = points.first;
 
-  double maxX = points.map((point) => point.x).reduce(max);
-  double maxY = points.map((point) => point.y).reduce(max);
-  double minX = points.map((point) => point.x).reduce(min);
-  double minY = points.map((point) => point.y).reduce(min);
-
-  List<Point> vertices = [
-    Point(minX, minY),
-    Point(maxX, minY),
-    Point(minX, maxY),
-    Point(maxX, maxY)
-  ];
+  List<Point> vertices = getVertices(points);
 
   List<double> distances = [
     distanceBetweenTwoPoints(firstPoint, vertices[0]),
@@ -37,15 +45,15 @@ Quadrant? getQuadrantFromRectangle(
   int closestVertexIndex = distances.indexOf(distances.reduce(min));
 
   if (closestVertexIndex == 0) {
-    return a;
+    return a; // upper left quadrant
   } else if (closestVertexIndex == 1) {
-    return b;
+    return b; // upper right quadrant
   } else if (closestVertexIndex == 2) {
-    return c;
+    return c; // bottom left quadrant
   } else if (closestVertexIndex == 3) {
-    return d;
+    return d; // bottom right quadrant
   } else {
-    return a;
+    return a; // default to upper left quadrant
   }
 }
 
@@ -57,26 +65,26 @@ Quadrant? getQuadrantFromTriangle(
 
   Point firstPoint = points.first;
 
-  double maxX = points.map((point) => point.x).reduce(max);
-  double maxY = points.map((point) => point.y).reduce(max);
-  double minX = points.map((point) => point.x).reduce(min);
-  double minY = points.map((point) => point.y).reduce(min);
+  List<Point> vertices = getVertices(points);
 
-  double halfWidth = (maxX - minX) / 2;
-  double halfHeight = (maxY - minY) / 2;
+  List<double> distances = [
+    distanceBetweenTwoPoints(firstPoint, vertices[0]),
+    distanceBetweenTwoPoints(firstPoint, vertices[1]),
+    distanceBetweenTwoPoints(firstPoint, vertices[2]),
+    distanceBetweenTwoPoints(firstPoint, vertices[3])
+  ];
+  int closestVertexIndex = distances.indexOf(distances.reduce(min));
 
-  if (firstPoint.x <= halfWidth) {
-    if (firstPoint.y <= halfHeight) {
-      return a; // Upper left quadrant
-    } else {
-      return c; // Bottom left quadrant
-    }
+  if (closestVertexIndex == 0) {
+    return a; // upper left quadrant
+  } else if (closestVertexIndex == 1) {
+    return b; // upper right quadrant
+  } else if (closestVertexIndex == 2) {
+    return c; // bottom left quadrant
+  } else if (closestVertexIndex == 3) {
+    return d; // bottom right quadrant
   } else {
-    if (firstPoint.y <= halfHeight) {
-      return b; // Upper right quadrant
-    } else {
-      return d; // Bottom right quadrant
-    }
+    return a; // default to upper left quadrant
   }
 }
 
@@ -88,26 +96,26 @@ Quadrant? getQuadrantFromCircle(
 
   Point firstPoint = points.first;
 
-  double maxX = points.map((point) => point.x).reduce(max);
-  double maxY = points.map((point) => point.y).reduce(max);
-  double minX = points.map((point) => point.x).reduce(min);
-  double minY = points.map((point) => point.y).reduce(min);
+  List<Point> vertices = getVertices(points);
 
-  double halfWidth = (maxX - minX) / 2;
-  double halfHeight = (maxY - minY) / 2;
+  List<double> distances = [
+    distanceBetweenTwoPoints(firstPoint, vertices[0]),
+    distanceBetweenTwoPoints(firstPoint, vertices[1]),
+    distanceBetweenTwoPoints(firstPoint, vertices[2]),
+    distanceBetweenTwoPoints(firstPoint, vertices[3])
+  ];
+  int closestVertexIndex = distances.indexOf(distances.reduce(min));
 
-  if (firstPoint.x <= halfWidth) {
-    if (firstPoint.y <= halfHeight) {
-      return a; // Upper left quadrant
-    } else {
-      return c; // Bottom left quadrant
-    }
+  if (closestVertexIndex == 0) {
+    return a; // upper left quadrant
+  } else if (closestVertexIndex == 1) {
+    return b; // upper right quadrant
+  } else if (closestVertexIndex == 2) {
+    return c; // bottom left quadrant
+  } else if (closestVertexIndex == 3) {
+    return d; // bottom right quadrant
   } else {
-    if (firstPoint.y <= halfHeight) {
-      return b; // Upper right quadrant
-    } else {
-      return d; // Bottom right quadrant
-    }
+    return a; // default to upper left quadrant
   }
 }
 
