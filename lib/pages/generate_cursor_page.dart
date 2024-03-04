@@ -32,6 +32,7 @@ class _GenerateCursorPageState extends ConsumerState<GenerateCursorPage> {
 
   bool isCursorDrawn = false;
   bool isTouchpadDrawn = false;
+  Rect touchpadRect = Rect.zero;
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +42,10 @@ class _GenerateCursorPageState extends ConsumerState<GenerateCursorPage> {
     void onShapeDrawn(String shape, List<Point> points) {
       ScreenHelper screenHelper = ScreenHelper(context);
       Offset cursorOffset = screenHelper.getCursorOffset(shape, points);
-      // Rect touchpadRect = screenHelper.getTouchpadRect(shape, points);
       setState(() {
+        touchpadRect = screenHelper.getTouchpadRect(shape, points);
         isCursorDrawn = true;
+        isTouchpadDrawn = true;
       });
       cursorNotifier.updatePosition(cursorOffset.dx, cursorOffset.dy);
     }
@@ -61,15 +63,27 @@ class _GenerateCursorPageState extends ConsumerState<GenerateCursorPage> {
                 onShapeDrawn(shape, points)),
         ...buttons,
         if (isTouchpadDrawn)
-          // Touchpad(onUpdatePosition: (double x, double y) {
-          //   cursorNotifier.updatePosition(x, y);
-          // }, onTap: () {
-          //   for (var button in buttons) {
-          //     if (cursorNotifier.isCursorOnButton(button)) {
-          //       button.onTap(ref);
-          //     }
-          //   }
-          // }),
+          TouchpadWidget(
+              cursorPositionX: cursorNotifier.getPositionX(),
+              cursorPositionY: cursorNotifier.getPositionY(),
+              initialLeft: touchpadRect.left,
+              initialTop: touchpadRect.top,
+              initialRight:
+                  MediaQuery.of(context).size.width - touchpadRect.right,
+              initialBottom:
+                  MediaQuery.of(context).size.height - touchpadRect.bottom,
+              updateDx: 1,
+              updateDy: 1,
+              onTouch: (x, y) {
+                cursorNotifier.updatePosition(x, y);
+              },
+              onTap: () {
+                for (var button in buttons) {
+                  if (cursorNotifier.isCursorOnButton(button)) {
+                    button.onTap(ref);
+                  }
+                }
+              }),
         if (isCursorDrawn) cursorWidget,
       ],
     ));

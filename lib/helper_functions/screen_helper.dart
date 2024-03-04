@@ -174,8 +174,8 @@ class ScreenHelper {
 
     double left = vertices[0].x;
     double top = vertices[0].y;
-    double right = vertices[4].x;
-    double bottom = vertices[4].y;
+    double right = vertices[3].x;
+    double bottom = vertices[3].y;
 
     return Rect.fromLTRB(left, top, right, bottom);
   }
