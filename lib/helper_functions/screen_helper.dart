@@ -170,7 +170,6 @@ class ScreenHelper {
   }
 
   Rect getTouchpadRect(String shape, List<Point> points) {
-
     List<Point> vertices = getVertices(points);
 
     double left = vertices[0].x;

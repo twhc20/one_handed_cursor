@@ -27,15 +27,23 @@ class BasicCursorPage extends ConsumerWidget {
           children: [
             ...buttons,
             cursorWidget,
-            Touchpad(onUpdatePosition: (double x, double y) {
-              cursorNotifier.updatePosition(x, y);
-            }, onTap: () {
-              for (var button in buttons) {
-                if (cursorNotifier.isCursorOnButton(button)) {
-                  button.onTap(ref);
-                }
-              }
-            })
+            TouchpadWidget(
+                initialLeft: 150,
+                initialTop: 150,
+                initialRight: 200,
+                initialBottom: 200,
+                updateDx: 1,
+                updateDy: 1,
+                onTouch: (x, y) {
+                  cursorNotifier.updatePosition(x, y);
+                },
+                onTap: () {
+                  for (var button in buttons) {
+                    if (cursorNotifier.isCursorOnButton(button)) {
+                      button.onTap(ref);
+                    }
+                  }
+                }),
           ],
         ));
   }

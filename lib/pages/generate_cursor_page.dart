@@ -61,15 +61,15 @@ class _GenerateCursorPageState extends ConsumerState<GenerateCursorPage> {
                 onShapeDrawn(shape, points)),
         ...buttons,
         if (isTouchpadDrawn)
-          Touchpad(onUpdatePosition: (double x, double y) {
-            cursorNotifier.updatePosition(x, y);
-          }, onTap: () {
-            for (var button in buttons) {
-              if (cursorNotifier.isCursorOnButton(button)) {
-                button.onTap(ref);
-              }
-            }
-          }),
+          // Touchpad(onUpdatePosition: (double x, double y) {
+          //   cursorNotifier.updatePosition(x, y);
+          // }, onTap: () {
+          //   for (var button in buttons) {
+          //     if (cursorNotifier.isCursorOnButton(button)) {
+          //       button.onTap(ref);
+          //     }
+          //   }
+          // }),
         if (isCursorDrawn) cursorWidget,
       ],
     ));
