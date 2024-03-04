@@ -28,10 +28,12 @@ class BasicCursorPage extends ConsumerWidget {
             ...buttons,
             cursorWidget,
             TouchpadWidget(
-                initialLeft: 150,
-                initialTop: 150,
-                initialRight: 200,
-                initialBottom: 200,
+                cursorPositionX: cursorNotifier.getPositionX(),
+                cursorPositionY: cursorNotifier.getPositionY(),
+                initialLeft: 170,
+                initialTop: 550,
+                initialRight: 30,
+                initialBottom: 50,
                 updateDx: 1,
                 updateDy: 1,
                 onTouch: (x, y) {

@@ -14,6 +14,18 @@ class CursorNotifier extends StateNotifier<CursorState> {
 
   bool isCursorOnButton (Button button) {
     return button.getRect().contains(Offset(state.positionX, state.positionY));}
+
+  Offset getPosition() {
+    return Offset(state.positionX, state.positionY);
+  }
+
+  double getPositionX () {
+    return state.positionX;
+  }
+
+  double getPositionY () {
+    return state.positionY;
+  }
 }
 
 

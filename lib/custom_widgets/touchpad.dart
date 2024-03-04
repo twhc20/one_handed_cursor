@@ -41,6 +41,8 @@ class TouchpadWidget extends ConsumerStatefulWidget {
   final double initialBottom;
   final double updateDx;
   final double updateDy;
+  final double cursorPositionX;
+  final double cursorPositionY;
 
   const TouchpadWidget(
       {this.initialLeft = 0,
@@ -49,6 +51,8 @@ class TouchpadWidget extends ConsumerStatefulWidget {
       this.initialBottom = 0,
       this.updateDx = 1,
       this.updateDy = 1,
+      required this.cursorPositionX,
+      required this.cursorPositionY,
       required this.onTouch,
       required this.onTap,
       super.key});
@@ -63,13 +67,15 @@ class _TouchpadWidgetState extends ConsumerState<TouchpadWidget> {
     final touchpadState =
         ref.watch(touchpadNotifierProvider(widget).select((state) => state));
 
-    double relativeCursorPositionX = 0.0;
-    double relativeCursorPositionY = 0.0;
+    double relativeCursorPositionX = widget.cursorPositionX;
+    double relativeCursorPositionY = widget.cursorPositionY;
 
     return Stack(children: [
       Positioned(
         left: touchpadState.left,
         top: touchpadState.top,
+        right: touchpadState.right,
+        bottom: touchpadState.bottom,
         child: GestureDetector(
           onPanUpdate: (details) {
             widget.onTouch(relativeCursorPositionX += details.delta.dx * 1.2,
@@ -79,8 +85,6 @@ class _TouchpadWidgetState extends ConsumerState<TouchpadWidget> {
             widget.onTap();
           },
           child: Container(
-            width: touchpadState.right,
-            height: touchpadState.bottom,
             decoration: BoxDecoration(
               color: Colors.grey.withOpacity(0.5),
               borderRadius: BorderRadius.circular(16.0),
