@@ -109,13 +109,8 @@ class _ShapeDetectorState extends ConsumerState<ShapeDetector> {
             Result result =
                 await recognizer.recognize(pointsToRecognize, false);
 
-            widget.onShapeDrawn(result.name, pointsToRecognize); //callback of results to page
-
-            final snackBar = SnackBar(
-                content: Text(
-                    "Result : name : ${result.name}, score : ${result.score}, ms : ${result.ms}"));
-            // ignore: use_build_context_synchronously
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            widget.onShapeDrawn(
+                result.name, pointsToRecognize); //callback of results to page
           },
           child: CustomPaint(
             size: Size.infinite,
