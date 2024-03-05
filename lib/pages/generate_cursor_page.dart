@@ -39,6 +39,9 @@ class _GenerateCursorPageState extends ConsumerState<GenerateCursorPage> {
     final cursorNotifier =
         ref.read(cursorNotifierProvider(cursorWidget).notifier);
 
+    // ignore: unused_local_variable
+    bool canDraw = ref.watch(canDrawProvider.select((value) => value));
+
     void onShapeDrawn(String shape, List<Point> points) {
       ScreenHelper screenHelper = ScreenHelper(context);
       Offset cursorOffset = screenHelper.getCursorOffset(shape, points);
@@ -46,8 +49,17 @@ class _GenerateCursorPageState extends ConsumerState<GenerateCursorPage> {
         touchpadRect = screenHelper.getTouchpadRect(shape, points);
         isCursorDrawn = true;
         isTouchpadDrawn = true;
+        canDraw = false;
       });
       cursorNotifier.updatePosition(cursorOffset.dx, cursorOffset.dy);
+    }
+
+    void reset() {
+      setState(() {
+        isCursorDrawn = false;
+        isTouchpadDrawn = false;
+        canDraw = true;
+      });
     }
 
     return Scaffold(
@@ -81,6 +93,7 @@ class _GenerateCursorPageState extends ConsumerState<GenerateCursorPage> {
                 for (var button in buttons) {
                   if (cursorNotifier.isCursorOnButton(button)) {
                     button.onTap(ref);
+                    reset();
                   }
                 }
               }),
