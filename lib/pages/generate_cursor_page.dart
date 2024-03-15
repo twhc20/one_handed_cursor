@@ -25,7 +25,7 @@ class _GenerateCursorPageState extends ConsumerState<GenerateCursorPage> {
   Color selectedColor = Colors.black;
   double strokeWidth = 3.0;
   List<DrawingPoints> points = List<DrawingPoints>.empty(growable: true);
-  double opacity = 1.0;
+  double opacity = 0;
   StrokeCap strokeCap = (Platform.isAndroid) ? StrokeCap.butt : StrokeCap.round;
 
   final cursorWidget = const CursorWidget(initialPositionX: 50);
@@ -84,8 +84,8 @@ class _GenerateCursorPageState extends ConsumerState<GenerateCursorPage> {
                   MediaQuery.of(context).size.width - touchpadRect.right,
               initialBottom:
                   MediaQuery.of(context).size.height - touchpadRect.bottom,
-              updateDx: 1,
-              updateDy: 1,
+              updateDx: 1.2,
+              updateDy: 1.2,
               onTouch: (x, y) {
                 cursorNotifier.updatePosition(x, y);
               },
@@ -96,6 +96,10 @@ class _GenerateCursorPageState extends ConsumerState<GenerateCursorPage> {
                     reset();
                   }
                 }
+              },
+              onClose: () {
+                isCursorDrawn = false;
+                isTouchpadDrawn = false;
               }),
         if (isCursorDrawn) cursorWidget,
       ],

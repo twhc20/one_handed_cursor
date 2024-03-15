@@ -45,7 +45,8 @@ class BasicCursorPage extends ConsumerWidget {
                       button.onTap(ref);
                     }
                   }
-                }),
+                },
+                onClose: () {}),
           ],
         ));
   }

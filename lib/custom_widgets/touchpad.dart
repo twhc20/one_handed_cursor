@@ -34,6 +34,7 @@ final touchpadNotifierProvider = StateNotifierProvider.family<TouchpadNotifer,
 class TouchpadWidget extends ConsumerStatefulWidget {
   final Function(double, double) onTouch;
   final Function() onTap;
+  final Function onClose;
 
   final double initialLeft;
   final double initialTop;
@@ -55,6 +56,7 @@ class TouchpadWidget extends ConsumerStatefulWidget {
       required this.cursorPositionY,
       required this.onTouch,
       required this.onTap,
+      required this.onClose,
       super.key});
 
   @override
@@ -70,6 +72,12 @@ class _TouchpadWidgetState extends ConsumerState<TouchpadWidget> {
     double relativeCursorPositionX = widget.cursorPositionX;
     double relativeCursorPositionY = widget.cursorPositionY;
 
+    bool rightSide =
+        false; // if the touchpad will be on left or right side of the screen
+    Size screenSize = MediaQuery.of(context).size;
+    double screenCenterX = screenSize.width / 2;
+    rightSide = (touchpadState.right + touchpadState.left) / 2 > screenCenterX;
+
     return Stack(children: [
       Positioned(
         left: touchpadState.left,
@@ -78,8 +86,11 @@ class _TouchpadWidgetState extends ConsumerState<TouchpadWidget> {
         bottom: touchpadState.bottom,
         child: GestureDetector(
           onPanUpdate: (details) {
-            widget.onTouch(relativeCursorPositionX += details.delta.dx * 1.2,
-                relativeCursorPositionY += details.delta.dy * 1.2);
+            widget.onTouch(
+                relativeCursorPositionX +=
+                    details.delta.dx * touchpadState.dxRatio,
+                relativeCursorPositionY +=
+                    details.delta.dy * touchpadState.dyRatio);
           },
           onTap: () {
             widget.onTap();
@@ -92,6 +103,44 @@ class _TouchpadWidgetState extends ConsumerState<TouchpadWidget> {
           ),
         ),
       ),
+      if (rightSide)
+        Positioned(
+          left: touchpadState.right,
+          top: touchpadState.bottom,
+          right: touchpadState.right - 10,
+          bottom: touchpadState.bottom - 10,
+          child: GestureDetector(
+            onTap: () {
+              widget.onClose();
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.grey.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+              child: const Icon(Icons.close),
+            ),
+          ),
+        ),
+      if (!rightSide)
+        Positioned(
+          left: touchpadState.left - 10,
+          top: touchpadState.bottom,
+          right: touchpadState.left,
+          bottom: touchpadState.bottom - 10,
+          child: GestureDetector(
+            onTap: () {
+              widget.onClose();
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.grey.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+              child: const Icon(Icons.close),
+            ),
+          ),
+        ),
     ]);
   }
 }
