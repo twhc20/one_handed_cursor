@@ -98,10 +98,7 @@ class _GenerateCursorPageState extends ConsumerState<GenerateCursorPage> {
                 }
               },
               onClose: () {
-                setState(() {
-                  isCursorDrawn = false;
-                  isTouchpadDrawn = false;
-                });
+                reset();
               }),
         if (isCursorDrawn) cursorWidget,
       ],
