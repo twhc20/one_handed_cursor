@@ -54,73 +54,70 @@ class ShapeDetector extends ConsumerStatefulWidget {
 class _ShapeDetectorState extends ConsumerState<ShapeDetector> {
   @override
   Widget build(BuildContext context) {
-    final canDraw = ref.watch(canDrawProvider.select((value) => value));
-    return Scaffold(
-      body: Builder(
-        builder: (context) => GestureDetector(
-          onPanStart: (details) {
-            if (!canDraw) {
-              return;
-            }
-            RenderBox? renderBox = context.findRenderObject() as RenderBox;
-            pointsToRecognize = List<Point>.empty(growable: true);
-            pointsToRecognize.add(Point(
-                renderBox.globalToLocal(details.globalPosition).dx,
-                renderBox.globalToLocal(details.globalPosition).dy));
-            widget.points.clear();
-            widget.points.add(DrawingPoints(
-                points: renderBox.globalToLocal(details.globalPosition),
-                paint: Paint()
-                  ..strokeCap = widget.strokeCap
-                  ..isAntiAlias = true
-                  ..color = widget.selectedColor
-                  ..strokeWidth = widget.strokeWidth));
-          },
-          onPanUpdate: (details) {
-            if (!canDraw) {
-              return;
-            }
+    bool canDraw = ref.watch(canDrawProvider.select((value) => value));
 
-            RenderBox? renderBox = context.findRenderObject() as RenderBox;
-            pointsToRecognize.add(Point(
-                renderBox.globalToLocal(details.globalPosition).dx,
-                renderBox.globalToLocal(details.globalPosition).dy));
-            widget.points.add(DrawingPoints(
-                points: renderBox.globalToLocal(details.globalPosition),
-                paint: Paint()
-                  ..strokeCap = widget.strokeCap
-                  ..isAntiAlias = true
-                  ..color = widget.selectedColor
-                  ..strokeWidth = widget.strokeWidth));
-          },
-          onPanEnd: (details) async {
-            if (!canDraw) {
-              return;
-            }
+    if (canDraw) {
+      return Scaffold(
+        body: Builder(
+          builder: (context) => GestureDetector(
+            onTap: () {},
+            onPanStart: (details) {
+              RenderBox? renderBox = context.findRenderObject() as RenderBox;
+              pointsToRecognize = List<Point>.empty(growable: true);
+              pointsToRecognize.add(Point(
+                  renderBox.globalToLocal(details.globalPosition).dx,
+                  renderBox.globalToLocal(details.globalPosition).dy));
+              widget.points.clear();
+              widget.points.add(DrawingPoints(
+                  points: renderBox.globalToLocal(details.globalPosition),
+                  paint: Paint()
+                    ..strokeCap = widget.strokeCap
+                    ..isAntiAlias = true
+                    ..color = widget.selectedColor
+                    ..strokeWidth = widget.strokeWidth));
+            },
+            onPanUpdate: (details) {
+              RenderBox? renderBox = context.findRenderObject() as RenderBox;
+              pointsToRecognize.add(Point(
+                  renderBox.globalToLocal(details.globalPosition).dx,
+                  renderBox.globalToLocal(details.globalPosition).dy));
+              widget.points.add(DrawingPoints(
+                  points: renderBox.globalToLocal(details.globalPosition),
+                  paint: Paint()
+                    ..strokeCap = widget.strokeCap
+                    ..isAntiAlias = true
+                    ..color = widget.selectedColor
+                    ..strokeWidth = widget.strokeWidth));
+            },
+            onPanEnd: (details) async {
+              widget.points.add(DrawingPoints(
+                  points: Offset.infinite,
+                  paint: Paint()
+                    ..strokeCap = widget.strokeCap
+                    ..isAntiAlias = true
+                    ..color = widget.selectedColor
+                    ..strokeWidth = widget.strokeWidth));
 
-            widget.points.add(DrawingPoints(
-                points: Offset.infinite,
-                paint: Paint()
-                  ..strokeCap = widget.strokeCap
-                  ..isAntiAlias = true
-                  ..color = widget.selectedColor
-                  ..strokeWidth = widget.strokeWidth));
+              Result result =
+                  await recognizer.recognize(pointsToRecognize, false);
 
-            Result result =
-                await recognizer.recognize(pointsToRecognize, false);
-
-            widget.onShapeDrawn(
-                result.name, pointsToRecognize); //callback of results to page
-          },
-          child: CustomPaint(
-            size: Size.infinite,
-            painter: DrawingPainter(
-              pointsList: widget.points,
+              widget.onShapeDrawn(
+                  result.name, pointsToRecognize); //callback of results to page
+            },
+            child: CustomPaint(
+              size: Size.infinite,
+              painter: DrawingPainter(
+                pointsList: widget.points,
+              ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    } else if (!canDraw) {
+      return const Scaffold();
+    } else {
+      return const Scaffold();
+    }
   }
 }
 // // ignore: must_be_immutable

@@ -22,8 +22,8 @@ class GenerateCursorPage extends ConsumerStatefulWidget {
 }
 
 class _GenerateCursorPageState extends ConsumerState<GenerateCursorPage> {
-  Color selectedColor = Colors.black;
-  double strokeWidth = 3.0;
+  Color selectedColor = Colors.transparent;
+  double strokeWidth = 3;
   List<DrawingPoints> points = List<DrawingPoints>.empty(growable: true);
   double opacity = 0;
   StrokeCap strokeCap = (Platform.isAndroid) ? StrokeCap.butt : StrokeCap.round;
@@ -49,7 +49,7 @@ class _GenerateCursorPageState extends ConsumerState<GenerateCursorPage> {
         touchpadRect = screenHelper.getTouchpadRect(shape, points);
         isCursorDrawn = true;
         isTouchpadDrawn = true;
-        canDraw = false;
+        ref.read(canDrawProvider.notifier).state = false;
       });
       cursorNotifier.updatePosition(cursorOffset.dx, cursorOffset.dy);
     }
@@ -58,7 +58,7 @@ class _GenerateCursorPageState extends ConsumerState<GenerateCursorPage> {
       setState(() {
         isCursorDrawn = false;
         isTouchpadDrawn = false;
-        canDraw = true;
+        ref.read(canDrawProvider.notifier).state = true;
       });
     }
 
@@ -98,8 +98,10 @@ class _GenerateCursorPageState extends ConsumerState<GenerateCursorPage> {
                 }
               },
               onClose: () {
-                isCursorDrawn = false;
-                isTouchpadDrawn = false;
+                setState(() {
+                  isCursorDrawn = false;
+                  isTouchpadDrawn = false;
+                });
               }),
         if (isCursorDrawn) cursorWidget,
       ],

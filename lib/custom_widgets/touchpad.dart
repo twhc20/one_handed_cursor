@@ -76,7 +76,7 @@ class _TouchpadWidgetState extends ConsumerState<TouchpadWidget> {
         false; // if the touchpad will be on left or right side of the screen
     Size screenSize = MediaQuery.of(context).size;
     double screenCenterX = screenSize.width / 2;
-    rightSide = (touchpadState.right + touchpadState.left) / 2 > screenCenterX;
+    rightSide = (touchpadState.right - touchpadState.left) < screenCenterX;
 
     return Stack(children: [
       Positioned(
@@ -103,44 +103,44 @@ class _TouchpadWidgetState extends ConsumerState<TouchpadWidget> {
           ),
         ),
       ),
-      if (rightSide)
-        Positioned(
-          left: touchpadState.right,
-          top: touchpadState.bottom,
-          right: touchpadState.right - 10,
-          bottom: touchpadState.bottom - 10,
-          child: GestureDetector(
-            onTap: () {
-              widget.onClose();
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.grey.withOpacity(0.5),
-                borderRadius: BorderRadius.circular(16.0),
-              ),
-              child: const Icon(Icons.close),
-            ),
-          ),
-        ),
-      if (!rightSide)
-        Positioned(
-          left: touchpadState.left - 10,
-          top: touchpadState.bottom,
-          right: touchpadState.left,
-          bottom: touchpadState.bottom - 10,
-          child: GestureDetector(
-            onTap: () {
-              widget.onClose();
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.grey.withOpacity(0.5),
-                borderRadius: BorderRadius.circular(16.0),
-              ),
-              child: const Icon(Icons.close),
-            ),
-          ),
-        ),
+    //   if (rightSide)
+    //     Positioned(
+    //       left: screenSize.width - 40,
+    //       top: screenSize.height - 40,
+    //       right: 10,
+    //       bottom: 10,
+    //       child: GestureDetector(
+    //         onTap: () {
+    //           widget.onClose();
+    //         },
+    //         child: Container(
+    //           decoration: BoxDecoration(
+    //             color: Colors.grey.withOpacity(0.5),
+    //             borderRadius: BorderRadius.circular(16.0),
+    //           ),
+    //           child: const Icon(Icons.close),
+    //         ),
+    //       ),
+    //     ),
+    //   if (!rightSide)
+    //     Positioned(
+    //       left: 10, //touchpadState.left - 10,
+    //       top: 10, //touchpadState.bottom,
+    //       right: 10, //touchpadState.left,
+    //       bottom: 10, // touchpadState.bottom - 10,
+    //       child: GestureDetector(
+    //         onTap: () {
+    //           widget.onClose();
+    //         },
+    //         child: Container(
+    //           decoration: BoxDecoration(
+    //             color: Colors.grey.withOpacity(0.5),
+    //             borderRadius: BorderRadius.circular(16.0),
+    //           ),
+    //           child: const Icon(Icons.close),
+    //         ),
+    //       ),
+    //     ),
     ]);
   }
 }

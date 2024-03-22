@@ -20,7 +20,7 @@ class _GestureDetectorPageState extends State<GestureDetectorPage> {
   Color selectedColor = Colors.black;
   double strokeWidth = 3.0;
   List<DrawingPoints> points = List<DrawingPoints>.empty(growable: true);
-  double opacity = 1.0;
+  double opacity = 0;
   StrokeCap strokeCap = (Platform.isAndroid) ? StrokeCap.butt : StrokeCap.round;
 
   @override
