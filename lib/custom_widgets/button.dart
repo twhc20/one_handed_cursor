@@ -22,8 +22,9 @@ class Button extends ConsumerWidget {
     return Rect.fromLTWH(x, y, width, height);
   }
 
-  onTap(WidgetRef ref) {
+  void onTap(WidgetRef ref) {
     ref.read(counterStateProvider(id).notifier).state++;
+    
   }
 
   @override
@@ -37,14 +38,21 @@ class Button extends ConsumerWidget {
             child: SizedBox(
               width: width,
               height: height,
-              child: ElevatedButton(
-                onPressed: () => onTap(ref),
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.0),
-                  ),
+              child: AnimatedContainer(
+                duration: Duration(milliseconds: 200),
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.circular(16.0),
                 ),
-                child: Text('Counter: $value'),
+                child: ElevatedButton(
+                  onPressed: () => onTap(ref),
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                  ),
+                  child: Text('Counter: $value'),
+                ),
               ),
             )));
   }
