@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:one_handed_cursor/providers/button_index_provider.dart';
 
 final counterStateProvider = StateProvider.family.autoDispose((ref, id) => 0);
 
@@ -8,14 +9,16 @@ class Button extends ConsumerWidget {
   final double y;
   final double width;
   final double height;
-  final String id;
+  final String buttonId;
+  final String pageId;
 
   const Button(
       {this.x = 0,
       this.y = 0,
       this.width = 100,
       this.height = 100,
-      required this.id,
+      required this.buttonId,
+      required this.pageId,
       super.key});
 
   Rect getRect() {
@@ -23,13 +26,13 @@ class Button extends ConsumerWidget {
   }
 
   void onTap(WidgetRef ref) {
-    ref.read(counterStateProvider(id).notifier).state++;
-    
+    ref.read(counterStateProvider(buttonId).notifier).state++;
+    ref.read(buttonIndexProvider(pageId).notifier).state++;
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final value = ref.watch(counterStateProvider(id));
+    final value = ref.watch(counterStateProvider(buttonId));
     return Positioned(
         left: x,
         top: y,
@@ -39,7 +42,7 @@ class Button extends ConsumerWidget {
               width: width,
               height: height,
               child: AnimatedContainer(
-                duration: Duration(milliseconds: 200),
+                duration: const Duration(milliseconds: 200),
                 decoration: BoxDecoration(
                   color: Colors.blue,
                   borderRadius: BorderRadius.circular(16.0),

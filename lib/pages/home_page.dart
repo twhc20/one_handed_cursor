@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:one_handed_cursor/pages/basic_cursor_page.dart';
-import 'package:one_handed_cursor/pages/continous_target_page.dart';
+import 'package:one_handed_cursor/pages/continuous_target_page.dart';
 import 'package:one_handed_cursor/pages/generate_cursor_page.dart';
 import 'package:one_handed_cursor/pages/gesture_detector_page.dart';
 
