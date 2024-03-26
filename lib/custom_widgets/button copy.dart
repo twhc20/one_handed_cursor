@@ -4,7 +4,7 @@ import 'package:one_handed_cursor/providers/button_index_provider.dart';
 
 final counterStateProvider = StateProvider.family.autoDispose((ref, id) => 0);
 
-class Button extends ConsumerWidget {
+class ButtonCopy extends ConsumerStatefulWidget {
   final double x;
   final double y;
   final double width;
@@ -12,7 +12,7 @@ class Button extends ConsumerWidget {
   final String buttonId;
   final String pageId;
 
-  const Button(
+  const ButtonCopy(
       {this.x = 0,
       this.y = 0,
       this.width = 100,
@@ -25,23 +25,43 @@ class Button extends ConsumerWidget {
     return Rect.fromLTWH(x, y, width, height);
   }
 
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _ButtonState();
+
+  void onTap(WidgetRef ref) {}
+}
+
+class _ButtonState extends ConsumerState<ButtonCopy> {
+  Color color = Colors.blue;
+
   void onTap(WidgetRef ref) async {
     await Future.delayed(const Duration(milliseconds: 10));
-    ref.read(counterStateProvider(buttonId).notifier).state++;
-    ref.read(buttonIndexProvider(pageId).notifier).state++;
+
+    setState(() {
+      color = Colors.green;
+    });
+
+    Future.delayed(const Duration(milliseconds: 200), () {
+      setState(() {
+        color = Colors.blue;
+      });
+    });
+
+    ref.read(counterStateProvider(widget.buttonId).notifier).state++;
+    ref.read(buttonIndexProvider(widget.pageId).notifier).state++;
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final value = ref.watch(counterStateProvider(buttonId));
+  Widget build(BuildContext context) {
+    final value = ref.watch(counterStateProvider(widget.buttonId));
     return Positioned(
-        left: x,
-        top: y,
+        left: widget.x,
+        top: widget.y,
         child: GestureDetector(
             behavior: HitTestBehavior.translucent,
             child: SizedBox(
-              width: width,
-              height: height,
+              width: widget.height,
+              height: widget.height,
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
                 decoration: BoxDecoration(
