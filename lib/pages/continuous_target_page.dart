@@ -126,9 +126,10 @@ class _ContinuousTargetPageState extends ConsumerState<ContinuousTargetPage> {
               onTouch: (x, y) {
                 cursorNotifier.updatePosition(x, y);
               },
-              onTap: () {
+              onTap: () async {
                 for (var button in buttons) {
                   if (cursorNotifier.isCursorOnButton(button)) {
+                    await Future.delayed(const Duration(milliseconds: 200));
                     button.onTap(ref);
                     ref.read(buttonIndexProvider(pageId).notifier).state++;
                   }
