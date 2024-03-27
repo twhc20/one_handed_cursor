@@ -109,7 +109,7 @@ class _ContinuousTargetPageState extends ConsumerState<ContinuousTargetPage> {
             strokeCap: strokeCap,
             onShapeDrawn: (String shape, List<Point> points) =>
                 onShapeDrawn(shape, points)),
-        if (currentButtonIndex <= buttons.length)
+        if (currentButtonIndex < buttons.length)
           buttons[permutedList[currentButtonIndex]],
         if (isTouchpadDrawn)
           TouchpadWidget(

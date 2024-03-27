@@ -8,7 +8,7 @@ const String pageId = 'basic_cursor_page';
 
 final buttons = [
   const Button(buttonId: '1', x: 16.0, y: 100.0, pageId: pageId),
-  const Button(buttonId: '2', x: 16.0, y: 250.0, height: 53.125, width: 53.125, pageId: pageId),
+  const Button(buttonId: '2', x: 16.0, y: 250.0, height: 67.5, width: 67.5, pageId: pageId),
 ];
 
 class BasicCursorPage extends ConsumerWidget {

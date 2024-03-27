@@ -47,7 +47,7 @@ class CursorWidget extends ConsumerWidget {
           height: cursorPosition.radius * 2,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: Colors.grey.withOpacity(0.2),
+            color: Colors.red.withOpacity(0.2),
           ),
         ),
       ),

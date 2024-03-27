@@ -15,8 +15,8 @@ class Button extends ConsumerWidget {
   const Button(
       {this.x = 0,
       this.y = 0,
-      this.width = 21.25,
-      this.height = 21.25,
+      this.width = 40.5,
+      this.height = 40.5,
       required this.buttonId,
       required this.pageId,
       super.key});
@@ -42,21 +42,15 @@ class Button extends ConsumerWidget {
             child: SizedBox(
               width: width,
               height: height,
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.circular(16.0),
-                ),
-                child: ElevatedButton(
-                  onPressed: () => onTap(ref),
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16.0),
-                    ),
+              child: ElevatedButton(
+                onPressed: () => onTap(ref),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16.0),
                   ),
-                  child: Text('Counter: $value'),
                 ),
+                child: const Text(''),
               ),
             )));
   }
