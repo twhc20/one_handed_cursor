@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:one_handed_cursor/custom_widgets/button%20copy.dart';
+import 'package:one_handed_cursor/custom_widgets/button_copy.dart';
 import 'package:one_handed_cursor/custom_widgets/button.dart';
 import 'package:one_handed_cursor/custom_widgets/cursor.dart';
 
