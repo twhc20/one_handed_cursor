@@ -4,7 +4,7 @@ import 'package:one_handed_cursor/providers/button_index_provider.dart';
 
 final counterStateProvider = StateProvider.family.autoDispose((ref, id) => 0);
 
-class Button extends ConsumerWidget {
+class LargeButton extends ConsumerWidget {
   final double x;
   final double y;
   final double width;
@@ -12,11 +12,11 @@ class Button extends ConsumerWidget {
   final String buttonId;
   final String pageId;
 
-  const Button(
+  const LargeButton(
       {this.x = 0,
       this.y = 0,
-      this.width = 40.5,
-      this.height = 40.5,
+      this.width = 67.5,
+      this.height = 67.5,
       required this.buttonId,
       required this.pageId,
       super.key});

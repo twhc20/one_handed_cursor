@@ -1,9 +1,7 @@
 import 'dart:math';
 
-import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:one_handed_cursor/csv/file_storage.dart';
 import 'package:one_handed_cursor/custom_widgets/button.dart';
 import 'package:one_handed_cursor/custom_widgets/cursor.dart';
 import 'package:one_handed_cursor/helper_functions/random_list.dart';
@@ -11,7 +9,7 @@ import 'package:one_handed_cursor/pages/home_page.dart';
 import 'package:one_handed_cursor/providers/button_index_provider.dart';
 import '../csv/csv.dart';
 
-const String pageId = 'continuous_target_page';
+const String pageId = 'basic_target_page';
 // List of buttons
 // Each button has an id, x, y, width, height
 final buttons = [
@@ -56,38 +54,114 @@ class _BasicTargetPageState extends ConsumerState<BasicTargetPage> {
   // cursor widget
   final cursorWidget = const CursorWidget(initialPositionX: 50);
 
-  List<List<String>> listsOfLists = [];
-
+  // variables for starting test
   bool started = false;
+  bool next = false;
+
+  // variables for stopwatch
+  final stopWatch = Stopwatch();
+  final splitStopwatch = Stopwatch();
+
+  // data to be saved
+  List<String> data = [participantId, pageId];
+
   @override
   Widget build(BuildContext context) {
     final currentButtonIndex = ref.watch(buttonIndexProvider(pageId));
 
-    List<String> data = [];
-    data.add(participantId);
-    data.add(pageId);
+    ref.listen<int>(buttonIndexProvider(pageId), (int? prevValue, int value) {
+      stopWatch.stop();
+      splitStopwatch.stop();
+      int splitTime = splitStopwatch.elapsedMilliseconds;
+      int overallTime = stopWatch.elapsedMilliseconds;
+      if (prevValue == 0) {
+        data.add(splitTime.toString());
+        next = true;
+      } else if (value < buttons.length) {
+        data.add(splitTime.toString());
+        next = true;
+      } else {
+        data.add(splitTime.toString());
+        data.add(overallTime.toString());
+        next = false;
+      }
+    });
+
     return Scaffold(
         body: Stack(
       children: [
         if (!started)
-          Center(
-            child: ElevatedButton(
-              onPressed: () => setState(() => started = true),
-              child: const Text('Start'),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 65,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                width: 250,
+                height: 150,
+                child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      stopWatch.start();
+                      splitStopwatch.start();
+                      started = true;
+                    });
+                  },
+                  child: const Text('Start', style: TextStyle(fontSize: 30)),
+                ),
+              ),
             ),
           ),
         if (started)
-          if (currentButtonIndex < buttons.length)
-            buttons[permutedList[currentButtonIndex]],
+          if (!next)
+            if (currentButtonIndex < buttons.length)
+              buttons[permutedList[currentButtonIndex]],
+        if (next)
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 65,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                width: 250,
+                height: 150,
+                child: ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      splitStopwatch.reset();
+                      splitStopwatch.start();
+                      stopWatch.start();
+                      next = false;
+                    });
+                  },
+                  child: Text('$currentButtonIndex/20 Next',
+                      style: const TextStyle(fontSize: 30)),
+                ),
+              ),
+            ),
+          ),
         if (currentButtonIndex == buttons.length)
-          Center(
-            child: ElevatedButton(
-              onPressed: () {
-                String csv = const ListToCsvConverter().convert(rows);
-                FileStorage.writeCounter(csv, "basic_target.csv");
-                Navigator.pop(context);
-              },
-              child: const Text('Finished'),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 65,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                width: 250,
+                height: 150,
+                child: ElevatedButton(
+                  onPressed: () {
+                    stopWatch.reset();
+                    splitStopwatch.reset();
+                    rowsNoCursor.add(data);
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Finished', style: TextStyle(fontSize: 30)),
+                ),
+              ),
             ),
           ),
       ],

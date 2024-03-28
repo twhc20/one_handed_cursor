@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:one_handed_cursor/custom_widgets/button_copy.dart';
 import 'package:one_handed_cursor/custom_widgets/button.dart';
 import 'package:one_handed_cursor/custom_widgets/cursor.dart';
 
@@ -13,24 +12,19 @@ class CursorNotifier extends StateNotifier<CursorState> {
     state = CursorState(positionX: x, positionY: y);
   }
 
-  bool isCursorOnButton (Button button) {
-    return button.getRect().contains(Offset(state.positionX, state.positionY));}
-
-  bool isCursorOnButtonCopy (ButtonCopy button) {
-    return button.getRect().contains(Offset(state.positionX, state.positionY));}
+  bool isCursorOnButton(Button button) {
+    return button.getRect().contains(Offset(state.positionX, state.positionY));
+  }
 
   Offset getPosition() {
     return Offset(state.positionX, state.positionY);
   }
 
-  double getPositionX () {
+  double getPositionX() {
     return state.positionX;
   }
 
-  double getPositionY () {
+  double getPositionY() {
     return state.positionY;
   }
 }
-
-
-

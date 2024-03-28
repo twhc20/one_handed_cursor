@@ -40,9 +40,6 @@ class _GenerateCursorPageState extends ConsumerState<GenerateCursorPage> {
     final cursorNotifier =
         ref.read(cursorNotifierProvider(cursorWidget).notifier);
 
-    // ignore: unused_local_variable
-    bool canDraw = ref.watch(canDrawProvider.select((value) => value));
-
     void onShapeDrawn(String shape, List<Point> points) {
       ScreenHelper screenHelper = ScreenHelper(context);
       Offset cursorOffset = screenHelper.getCursorOffset(shape, points);

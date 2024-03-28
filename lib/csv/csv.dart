@@ -1,8 +1,7 @@
-List<List<dynamic>> rows = [
+List<List<dynamic>> rowsNoCursor = [
   [
     'Partcipant Id',
     'Page Id',
-    'Overall Time',
     'Time split 1',
     'Time split 2',
     'Time split 3',
@@ -23,5 +22,70 @@ List<List<dynamic>> rows = [
     'Time split 18',
     'Time split 19',
     'Time split 20',
+    'Overall Time',
+  ],
+];
+
+List<List<dynamic>> rowsCursor = [
+  [
+    'Partcipant Id',
+    'Page Id',
+    'Time split 1 cursor',
+    'Time split 1',
+    'Time split 2 cursor',
+    'Time split 2',
+    'Time split 3 cursor',
+    'Time split 3',
+    'Time split 4 cursor',
+    'Time split 4',
+    'Time split 5 cursor',
+    'Time split 5',
+    'Time split 6 cursor',
+    'Time split 6',
+    'Time split 7 cursor',
+    'Time split 7',
+    'Time split 8 cursor',
+    'Time split 8',
+    'Time split 9 cursor',
+    'Time split 9',
+    'Time split 10 cursor',
+    'Time split 10',
+    'Time split 11 cursor',
+    'Time split 11',
+    'Time split 12 cursor',
+    'Time split 12',
+    'Time split 13 cursor',
+    'Time split 13',
+    'Time split 14 cursor',
+    'Time split 14',
+    'Time split 15 cursor',
+    'Time split 15',
+    'Time split 16 cursor',
+    'Time split 16',
+    'Time split 17 cursor',
+    'Time split 17',
+    'Time split 18 cursor',
+    'Time split 18',
+    'Time split 19 cursor',
+    'Time split 19',
+    'Time split 20 cursor',
+    'Time split 20',
+    'Overall Time',
+  ],
+];
+
+List<List<dynamic>> continuousRowsNoCursor = [
+  [
+    'Partcipant Id',
+    'Page Id',
+    'Overall Time',
+  ],
+];
+
+List<List<dynamic>> continuousRowsCursor = [
+  [
+    'Partcipant Id',
+    'Page Id',
+    'Overall Time',
   ],
 ];
