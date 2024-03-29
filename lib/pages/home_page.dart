@@ -11,12 +11,53 @@ import 'package:one_handed_cursor/pages/continuous_target_page.dart';
 import 'package:one_handed_cursor/pages/continuous_target_page_large.dart';
 import 'package:one_handed_cursor/pages/generate_cursor_page.dart';
 import 'package:one_handed_cursor/pages/gesture_detector_page.dart';
+import 'package:one_handed_cursor/pages/left_big_1.5_page.dart';
 import 'package:one_handed_cursor/pages/left_big_1_page.dart';
 import 'package:one_handed_cursor/pages/left_big_1_page_continuous.dart';
+import 'package:one_handed_cursor/pages/left_small_1.5_page.dart';
+import 'package:one_handed_cursor/pages/left_small_1.5_page_continuous.dart';
+import 'package:one_handed_cursor/pages/left_small_1_page.dart';
+import 'package:one_handed_cursor/pages/left_small_1_page_continuous.dart';
+import 'package:one_handed_cursor/pages/right_big_1.5_page.dart';
+import 'package:one_handed_cursor/pages/right_big_1.5_page_continuous.dart';
+import 'package:one_handed_cursor/pages/right_big_1_page.dart';
+import 'package:one_handed_cursor/pages/right_big_1_page_continuous.dart';
+import 'package:one_handed_cursor/pages/right_small_1.5_page.dart';
+import 'package:one_handed_cursor/pages/right_small_1_page.dart';
+import 'package:one_handed_cursor/pages/right_small_1_page_continuous.dart';
 
 String participantId = '';
 
 final TextEditingController _controller = TextEditingController();
+
+void exportCSV() {
+  DateTime now = DateTime.now();
+  String formattedDate = DateFormat('yyyy-MM-dd_kkmm').format(now);
+  String rowsNoCursorCSV = const ListToCsvConverter().convert(rowsNoCursor);
+  FileStorage.writeCounter(rowsNoCursorCSV, "rowsNoCursor-$formattedDate.csv");
+
+  String rowsCursorCSV = const ListToCsvConverter().convert(rowsCursor);
+  FileStorage.writeCounter(rowsCursorCSV, "rowsCursor-$formattedDate.csv");
+
+  String continuousRowsNoCursorCSV =
+      const ListToCsvConverter().convert(continuousRowsNoCursor);
+  FileStorage.writeCounter(
+      continuousRowsNoCursorCSV, "continuousRowsNoCursor-$formattedDate.csv");
+
+  String continuousRowsCursorCSV =
+      const ListToCsvConverter().convert(continuousRowsCursor);
+  FileStorage.writeCounter(
+      continuousRowsCursorCSV, "continuousRowsCursor-$formattedDate.csv");
+
+  Fluttertoast.showToast(
+      msg: "CSV files exported to device storage",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.white,
+      textColor: Colors.black,
+      fontSize: 20.0);
+}
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -60,7 +101,7 @@ class _HomePageState extends State<HomePage> {
                       labelText: 'Participant ID',
                     ),
                   ),
-                  
+
                   const SizedBox(height: 10),
                   // basic cursor page
                   ElevatedButton(
@@ -71,7 +112,7 @@ class _HomePageState extends State<HomePage> {
                                 builder: (context) => const BasicCursorPage()));
                       },
                       child: const Text("Basic Cursor and Touchpad")),
-                  
+
                   const SizedBox(height: 10),
                   // gesture detector page
                   ElevatedButton(
@@ -111,7 +152,8 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const BasicTargetPageLarge()));
+                                builder: (context) =>
+                                    const BasicTargetPageLarge()));
                       },
                       child: const Text("Basic Targets Large")),
                   const SizedBox(height: 10),
@@ -126,7 +168,7 @@ class _HomePageState extends State<HomePage> {
                       },
                       child: const Text("Continuous Targets")),
                   const SizedBox(height: 10),
-                   ElevatedButton(
+                  ElevatedButton(
                       onPressed: () {
                         Navigator.push(
                             context,
@@ -150,7 +192,7 @@ class _HomePageState extends State<HomePage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const GenerateCursorPage()));
+                                        const LeftSmall1Page()));
                           },
                           child: const Text("Left small 1")),
                       ElevatedButton(
@@ -159,7 +201,7 @@ class _HomePageState extends State<HomePage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const GenerateCursorPage()));
+                                        const RightSmall1Page()));
                           },
                           child: const Text("Right small 1")),
                       ElevatedButton(
@@ -168,7 +210,7 @@ class _HomePageState extends State<HomePage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const GenerateCursorPage()));
+                                        const LeftSmall15Page()));
                           },
                           child: const Text("Left small 1.5")),
                       ElevatedButton(
@@ -177,7 +219,7 @@ class _HomePageState extends State<HomePage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const GenerateCursorPage()));
+                                        const RightSmall15Page()));
                           },
                           child: const Text("Right small 1.5")),
                       ElevatedButton(
@@ -195,7 +237,7 @@ class _HomePageState extends State<HomePage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const GenerateCursorPage()));
+                                        const RightBig1Page()));
                           },
                           child: const Text("Right big 1")),
                       ElevatedButton(
@@ -204,7 +246,7 @@ class _HomePageState extends State<HomePage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const GenerateCursorPage()));
+                                        const LeftBig15Page()));
                           },
                           child: const Text("Left big 1.5")),
                       ElevatedButton(
@@ -213,7 +255,7 @@ class _HomePageState extends State<HomePage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const GenerateCursorPage()));
+                                        const RightBig15Page()));
                           },
                           child: const Text("Right big 1.5")),
                       // continuous pages
@@ -223,7 +265,7 @@ class _HomePageState extends State<HomePage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const GenerateCursorPage()));
+                                        const LeftSmall1ContinuousPage()));
                           },
                           child: const Text("Left small 1 continuous")),
                       ElevatedButton(
@@ -232,7 +274,7 @@ class _HomePageState extends State<HomePage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const GenerateCursorPage()));
+                                        const RightSmall1ContinuousPage()));
                           },
                           child: const Text("Right small 1 continuous")),
                       ElevatedButton(
@@ -241,7 +283,7 @@ class _HomePageState extends State<HomePage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const GenerateCursorPage()));
+                                        const LeftSmall15ContinuousPage()));
                           },
                           child: const Text("Left small 1.5 continuous")),
                       ElevatedButton(
@@ -250,7 +292,7 @@ class _HomePageState extends State<HomePage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const GenerateCursorPage()));
+                                        const RightSmall1ContinuousPage()));
                           },
                           child: const Text("Right small 1.5 continuous")),
                       ElevatedButton(
@@ -268,7 +310,7 @@ class _HomePageState extends State<HomePage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const GenerateCursorPage()));
+                                        const RightBig1ContinuousPage()));
                           },
                           child: const Text("Right big 1 continuous")),
                       ElevatedButton(
@@ -277,7 +319,7 @@ class _HomePageState extends State<HomePage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const GenerateCursorPage()));
+                                        const LeftBig1ContinuousPage()));
                           },
                           child: const Text("Left big 1.5 continuous")),
                       ElevatedButton(
@@ -286,46 +328,14 @@ class _HomePageState extends State<HomePage> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        const GenerateCursorPage()));
+                                        const RightBig15ContinuousPage()));
                           },
                           child: const Text("Right big 1.5 continuous")),
                     ]),
                 SliverList.list(children: [
                   ElevatedButton(
                       onPressed: () {
-                        DateTime now = DateTime.now();
-                        String formattedDate =
-                            DateFormat('yyyy-MM-dd_kkmm').format(now);
-                        String rowsNoCursorCSV =
-                            const ListToCsvConverter().convert(rowsNoCursor);
-                        FileStorage.writeCounter(
-                            rowsNoCursorCSV, "rowsNoCursor-$formattedDate.csv");
-
-                        String rowsCursorCSV =
-                            const ListToCsvConverter().convert(rowsCursor);
-                        FileStorage.writeCounter(
-                            rowsCursorCSV, "rowsCursor-$formattedDate.csv");
-
-                        String continuousRowsNoCursorCSV =
-                            const ListToCsvConverter()
-                                .convert(continuousRowsNoCursor);
-                        FileStorage.writeCounter(continuousRowsNoCursorCSV,
-                            "continuousRowsNoCursor-$formattedDate.csv");
-
-                        String continuousRowsCursorCSV =
-                            const ListToCsvConverter()
-                                .convert(continuousRowsCursor);
-                        FileStorage.writeCounter(continuousRowsCursorCSV,
-                            "continuousRowsCursor-$formattedDate.csv");
-
-                        Fluttertoast.showToast(
-                            msg: "CSV files exported to device storage",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIosWeb: 1,
-                            backgroundColor: Colors.white,
-                            textColor: Colors.black,
-                            fontSize: 20.0);
+                        exportCSV();
                       },
                       child: const Text("Export to CSV")),
                 ]),
