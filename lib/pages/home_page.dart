@@ -231,7 +231,7 @@ class _HomePageState extends State<HomePage> {
                           () => const LeftBig15ContinuousPage()),
                       const SizedBox(height: 10),
                       getButton("Left Continuous Small CD:1.5",
-                          () => const LeftSmall1ContinuousPage()),
+                          () => const LeftSmall15ContinuousPage()),
                       const SizedBox(height: 30),
                     ]),
                 if (ddmHandValue == 'right')
@@ -275,7 +275,7 @@ class _HomePageState extends State<HomePage> {
                         () => const LeftBig15ContinuousPage()),
                     const SizedBox(height: 10),
                     getButton("Right Continuous Small CD:1.5",
-                        () => const LeftSmall1ContinuousPage()),
+                        () => const LeftSmall15ContinuousPage()),
                     const SizedBox(height: 30),
                   ]),
 
@@ -326,7 +326,7 @@ class _HomePageState extends State<HomePage> {
                           () => const LeftBig15ContinuousPage()),
                       const SizedBox(height: 10),
                       getButton("Left Continuous Small CD:1.5",
-                          () => const LeftSmall1ContinuousPage()),
+                          () => const LeftSmall15ContinuousPage()),
                       const SizedBox(height: 30),
                     ]),
                 if (ddmHandValue == 'right')
@@ -370,7 +370,7 @@ class _HomePageState extends State<HomePage> {
                         () => const LeftBig15ContinuousPage()),
                     const SizedBox(height: 10),
                     getButton("Right Continuous Small CD:1.5",
-                        () => const LeftSmall1ContinuousPage()),
+                        () => const LeftSmall15ContinuousPage()),
                     const SizedBox(height: 30),
                   ]),
 
@@ -415,7 +415,7 @@ class _HomePageState extends State<HomePage> {
                           () => const LeftBig15ContinuousPage()),
                       const SizedBox(height: 10),
                       getButton("Left Continuous Small CD:1.5",
-                          () => const LeftSmall1ContinuousPage()),
+                          () => const LeftSmall15ContinuousPage()),
                       getButton("Left Continuous Large CD:1",
                           () => const LeftBig1ContinuousPage()),
                       const SizedBox(height: 10),
@@ -458,7 +458,7 @@ class _HomePageState extends State<HomePage> {
                         () => const LeftBig15ContinuousPage()),
                     const SizedBox(height: 10),
                     getButton("Right Continuous Small CD:1.5",
-                        () => const LeftSmall1ContinuousPage()),
+                        () => const LeftSmall15ContinuousPage()),
                     getButton("Right Continuous Large CD:1",
                         () => const LeftBig1ContinuousPage()),
                     const SizedBox(height: 10),
