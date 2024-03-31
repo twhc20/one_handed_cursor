@@ -12,6 +12,7 @@ import 'package:one_handed_cursor/pages/continuous_target_page_large.dart';
 import 'package:one_handed_cursor/pages/generate_cursor_page.dart';
 import 'package:one_handed_cursor/pages/gesture_detector_page.dart';
 import 'package:one_handed_cursor/pages/left_big_1.5_page.dart';
+import 'package:one_handed_cursor/pages/left_big_1.5_page_continuous.dart';
 import 'package:one_handed_cursor/pages/left_big_1_page.dart';
 import 'package:one_handed_cursor/pages/left_big_1_page_continuous.dart';
 import 'package:one_handed_cursor/pages/left_small_1.5_page.dart';
@@ -27,7 +28,7 @@ import 'package:one_handed_cursor/pages/right_small_1_page.dart';
 import 'package:one_handed_cursor/pages/right_small_1_page_continuous.dart';
 
 String participantID = '';
-
+String participantHand = '';
 
 void exportCSV() {
   DateTime now = DateTime.now();
@@ -60,13 +61,27 @@ void exportCSV() {
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
-
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  
+  ElevatedButton getButton(String text, Widget Function() page) {
+    return ElevatedButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Builder(
+                        builder: (BuildContext context) => page(),
+                      )));
+        },
+        child: Text(text));
+  }
+
+  int ddmIdValue = 0;
+  String ddmHandValue = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,12 +98,16 @@ class _HomePageState extends State<HomePage> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: DropdownMenu<int>(
+                        initialSelection: ddmIdValue,
                         hintText: 'Select Participant ID',
                         width: 370,
                         menuHeight: 300,
                         onSelected: (int? newValue) {
                           // Do something with the selected value
-                          participantID = newValue.toString();
+                          setState(() {
+                            participantID = newValue.toString();
+                            ddmIdValue = newValue!;
+                          });
                         },
                         dropdownMenuEntries:
                             List<DropdownMenuEntry<int>>.generate(
@@ -99,237 +118,449 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
-
                   const SizedBox(height: 10),
+
+                  // dominant hand
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: DropdownMenu(
+                          initialSelection: ddmHandValue,
+                          hintText: 'Select dominant hand',
+                          width: 370,
+                          menuHeight: 300,
+                          onSelected: (String? newValue) {
+                            // Do something with the selected value
+                            setState(() {
+                              participantHand = newValue!;
+                              ddmHandValue = newValue;
+                            });
+                          },
+                          dropdownMenuEntries: const <DropdownMenuEntry<
+                              String>>[
+                            DropdownMenuEntry<String>(
+                                value: 'left', label: 'Left'),
+                            DropdownMenuEntry<String>(
+                                value: 'right', label: 'Right')
+                          ]),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+
                   // basic cursor page
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const BasicCursorPage()));
-                      },
-                      child: const Text("Basic Cursor and Touchpad")),
+                  getButton("Basic Cursor and Touchpad",
+                      () => const BasicCursorPage()),
+                  const SizedBox(height: 10),
 
-                  const SizedBox(height: 10),
                   // gesture detector page
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const GestureDetectorPage()));
-                      },
-                      child: const Text("Gesture Detector")),
+                  getButton(
+                      "Gesture Detector", () => const GestureDetectorPage()),
                   const SizedBox(height: 10),
+
                   // generate cursor page
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const GenerateCursorPage()));
-                      },
-                      child: const Text("Generate Cursor")),
+                  getButton(
+                      "Generate Cursor", () => const GenerateCursorPage()),
                   const SizedBox(height: 50),
-                  // basic target page
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const BasicTargetPage()));
-                      },
-                      child: const Text("Basic Targets")),
-                  const SizedBox(height: 10),
+
                   //basic target page large
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const BasicTargetPageLarge()));
-                      },
-                      child: const Text("Basic Targets Large")),
+                  getButton("Basic Targets Large",
+                      () => const BasicTargetPageLarge()),
                   const SizedBox(height: 10),
+
+                  // basic target page
+                  getButton(
+                      "Basic Targets Small", () => const BasicTargetPage()),
+                  const SizedBox(height: 10),
+
+                  // continuous target page large
+                  getButton("Continuous Targets Large",
+                      () => const ContinuousTargetPageLarge()),
+                  const SizedBox(height: 10),
+
                   // continuous target page
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const ContinuousTargetPage()));
-                      },
-                      child: const Text("Continuous Targets")),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const ContinuousTargetPageLarge()));
-                      },
-                      child: const Text("Continuous Targets Large")),
+                  getButton("Continuous Targets Small",
+                      () => const ContinuousTargetPage()),
                   const SizedBox(height: 50),
                 ]),
                 const SliverPadding(padding: EdgeInsets.only(top: 10)),
-                SliverGrid.count(
-                    childAspectRatio: (1 / .4),
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 10,
-                    crossAxisCount: 2,
-                    children: [
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const LeftSmall1Page()));
-                          },
-                          child: const Text("Left small 1")),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const RightSmall1Page()));
-                          },
-                          child: const Text("Right small 1")),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const LeftSmall15Page()));
-                          },
-                          child: const Text("Left small 1.5")),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const RightSmall15Page()));
-                          },
-                          child: const Text("Right small 1.5")),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const LeftBig1Page()));
-                          },
-                          child: const Text("Left big 1")),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const RightBig1Page()));
-                          },
-                          child: const Text("Right big 1")),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const LeftBig15Page()));
-                          },
-                          child: const Text("Left big 1.5")),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const RightBig15Page()));
-                          },
-                          child: const Text("Right big 1.5")),
-                      // continuous pages
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const LeftSmall1ContinuousPage()));
-                          },
-                          child: const Text("Left small 1 continuous")),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const RightSmall1ContinuousPage()));
-                          },
-                          child: const Text("Right small 1 continuous")),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const LeftSmall15ContinuousPage()));
-                          },
-                          child: const Text("Left small 1.5 continuous")),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const RightSmall1ContinuousPage()));
-                          },
-                          child: const Text("Right small 1.5 continuous")),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const LeftBig1ContinuousPage()));
-                          },
-                          child: const Text("Left big 1 continuous")),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const RightBig1ContinuousPage()));
-                          },
-                          child: const Text("Right big 1 continuous")),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const LeftBig1ContinuousPage()));
-                          },
-                          child: const Text("Left big 1.5 continuous")),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const RightBig15ContinuousPage()));
-                          },
-                          child: const Text("Right big 1.5 continuous")),
+
+                // participant 1, 5, 9, 13, 17
+                if (ddmIdValue == 1 ||
+                    ddmIdValue == 5 ||
+                    ddmIdValue == 9 ||
+                    ddmIdValue == 13 ||
+                    ddmIdValue == 17)
+                  if (ddmHandValue == 'left')
+                    SliverList.list(children: [
+                      // circle
+                      getButton(
+                          "Left Circle Large CD:1", () => const LeftBig1Page()),
+                      const SizedBox(height: 10),
+                      getButton("Left Circle Small CD:1",
+                          () => const LeftSmall1Page()),
+                      const SizedBox(height: 10),
+                      getButton("Left Circle Large CD:1.5",
+                          () => const LeftBig15Page()),
+                      const SizedBox(height: 10),
+                      getButton("Left Circle Small CD:1.5",
+                          () => const LeftSmall15Page()),
+                      const SizedBox(height: 30),
+
+                      // square
+                      getButton(
+                          "Left Square Large CD:1", () => const LeftBig1Page()),
+                      const SizedBox(height: 10),
+                      getButton("Left Square Small CD:1",
+                          () => const LeftSmall1Page()),
+                      const SizedBox(height: 10),
+                      getButton("Left Square Large CD:1.5",
+                          () => const LeftBig15Page()),
+                      const SizedBox(height: 10),
+                      getButton("Left Square Small CD:1.5",
+                          () => const LeftSmall15Page()),
+                      const SizedBox(height: 30),
+
+                      // continuous
+                      getButton("Left Continuous Large CD:1",
+                          () => const LeftBig1ContinuousPage()),
+                      const SizedBox(height: 10),
+                      getButton("Left Continuous Small CD:1",
+                          () => const LeftSmall1ContinuousPage()),
+                      const SizedBox(height: 10),
+                      getButton("Left Continuous Large CD:1.5",
+                          () => const LeftBig15ContinuousPage()),
+                      const SizedBox(height: 10),
+                      getButton("Left Continuous Small CD:1.5",
+                          () => const LeftSmall1ContinuousPage()),
+                      const SizedBox(height: 30),
                     ]),
+                if (ddmHandValue == 'right')
+                  SliverList.list(children: [
+                    // circle
+                    getButton(
+                        "Right Circle Large CD:1", () => const LeftBig1Page()),
+                    const SizedBox(height: 10),
+                    getButton("Right Circle Small CD:1",
+                        () => const LeftSmall1Page()),
+                    const SizedBox(height: 10),
+                    getButton("Left Circle Large CD:1.5",
+                        () => const LeftBig15Page()),
+                    const SizedBox(height: 10),
+                    getButton("Left Circle Small CD:1.5",
+                        () => const LeftSmall15Page()),
+                    const SizedBox(height: 30),
+
+                    // square
+                    getButton(
+                        "Right Square Large CD:1", () => const LeftBig1Page()),
+                    const SizedBox(height: 10),
+                    getButton("Right Square Small CD:1",
+                        () => const LeftSmall1Page()),
+                    const SizedBox(height: 10),
+                    getButton("Right Square Large CD:1.5",
+                        () => const LeftBig15Page()),
+                    const SizedBox(height: 10),
+                    getButton("Right Square Small CD:1.5",
+                        () => const LeftSmall15Page()),
+                    const SizedBox(height: 30),
+
+                    // continuous
+                    getButton("Right Continuous Large CD:1",
+                        () => const LeftBig1ContinuousPage()),
+                    const SizedBox(height: 10),
+                    getButton("Right Continuous Small CD:1",
+                        () => const LeftSmall1ContinuousPage()),
+                    const SizedBox(height: 10),
+                    getButton("LRighteft Continuous Large CD:1.5",
+                        () => const LeftBig15ContinuousPage()),
+                    const SizedBox(height: 10),
+                    getButton("Right Continuous Small CD:1.5",
+                        () => const LeftSmall1ContinuousPage()),
+                    const SizedBox(height: 30),
+                  ]),
+
+                // participant 2, 6, 10, 14, 18
+                if (ddmIdValue == 2 ||
+                    ddmIdValue == 6 ||
+                    ddmIdValue == 10 ||
+                    ddmIdValue == 14 ||
+                    ddmIdValue == 18)
+                  if (ddmHandValue == 'left')
+                    SliverList.list(children: [
+                      // square
+                      getButton(
+                          "Left Square Large CD:1", () => const LeftBig1Page()),
+                      const SizedBox(height: 10),
+                      getButton("Left Square Small CD:1",
+                          () => const LeftSmall1Page()),
+                      const SizedBox(height: 10),
+                      getButton("Left Square Large CD:1.5",
+                          () => const LeftBig15Page()),
+                      const SizedBox(height: 10),
+                      getButton("Left Square Small CD:1.5",
+                          () => const LeftSmall15Page()),
+                      const SizedBox(height: 30),
+
+                      // circle
+                      getButton(
+                          "Left Circle Large CD:1", () => const LeftBig1Page()),
+                      const SizedBox(height: 10),
+                      getButton("Left Circle Small CD:1",
+                          () => const LeftSmall1Page()),
+                      const SizedBox(height: 10),
+                      getButton("Left Circle Large CD:1.5",
+                          () => const LeftBig15Page()),
+                      const SizedBox(height: 10),
+                      getButton("Left Circle Small CD:1.5",
+                          () => const LeftSmall15Page()),
+                      const SizedBox(height: 30),
+
+                      // continuous
+                      getButton("Left Continuous Large CD:1",
+                          () => const LeftBig1ContinuousPage()),
+                      const SizedBox(height: 10),
+                      getButton("Left Continuous Small CD:1",
+                          () => const LeftSmall1ContinuousPage()),
+                      const SizedBox(height: 10),
+                      getButton("Left Continuous Large CD:1.5",
+                          () => const LeftBig15ContinuousPage()),
+                      const SizedBox(height: 10),
+                      getButton("Left Continuous Small CD:1.5",
+                          () => const LeftSmall1ContinuousPage()),
+                      const SizedBox(height: 30),
+                    ]),
+                if (ddmHandValue == 'right')
+                  SliverList.list(children: [
+                    // square
+                    getButton(
+                        "Right Square Large CD:1", () => const LeftBig1Page()),
+                    const SizedBox(height: 10),
+                    getButton("Right Square Small CD:1",
+                        () => const LeftSmall1Page()),
+                    const SizedBox(height: 10),
+                    getButton("Right Square Large CD:1.5",
+                        () => const LeftBig15Page()),
+                    const SizedBox(height: 10),
+                    getButton("Right Square Small CD:1.5",
+                        () => const LeftSmall15Page()),
+                    const SizedBox(height: 30),
+
+                    // circle
+                    getButton(
+                        "Right Circle Large CD:1", () => const LeftBig1Page()),
+                    const SizedBox(height: 10),
+                    getButton("Right Circle Small CD:1",
+                        () => const LeftSmall1Page()),
+                    const SizedBox(height: 10),
+                    getButton("Left Circle Large CD:1.5",
+                        () => const LeftBig15Page()),
+                    const SizedBox(height: 10),
+                    getButton("Left Circle Small CD:1.5",
+                        () => const LeftSmall15Page()),
+                    const SizedBox(height: 30),
+
+                    // continuous
+                    getButton("Right Continuous Large CD:1",
+                        () => const LeftBig1ContinuousPage()),
+                    const SizedBox(height: 10),
+                    getButton("Right Continuous Small CD:1",
+                        () => const LeftSmall1ContinuousPage()),
+                    const SizedBox(height: 10),
+                    getButton("LRighteft Continuous Large CD:1.5",
+                        () => const LeftBig15ContinuousPage()),
+                    const SizedBox(height: 10),
+                    getButton("Right Continuous Small CD:1.5",
+                        () => const LeftSmall1ContinuousPage()),
+                    const SizedBox(height: 30),
+                  ]),
+
+                // participant 3, 7, 11, 15, 19
+                if (ddmIdValue == 3 ||
+                    ddmIdValue == 7 ||
+                    ddmIdValue == 11 ||
+                    ddmIdValue == 15 ||
+                    ddmIdValue == 19)
+                  if (ddmHandValue == 'left')
+                    SliverList.list(children: [
+                      // circle
+                      getButton("Left Circle Large CD:1.5",
+                          () => const LeftBig15Page()),
+                      const SizedBox(height: 10),
+                      getButton("Left Circle Small CD:1.5",
+                          () => const LeftSmall15Page()),
+                      const SizedBox(height: 10),
+                      getButton(
+                          "Left Circle Large CD:1", () => const LeftBig1Page()),
+                      const SizedBox(height: 10),
+                      getButton("Left Circle Small CD:1",
+                          () => const LeftSmall1Page()),
+                      const SizedBox(height: 30),
+
+                      // square
+                      getButton("Left Square Large CD:1.5",
+                          () => const LeftBig15Page()),
+                      const SizedBox(height: 10),
+                      getButton("Left Square Small CD:1.5",
+                          () => const LeftSmall15Page()),
+                      const SizedBox(height: 10),
+                      getButton(
+                          "Left Square Large CD:1", () => const LeftBig1Page()),
+                      const SizedBox(height: 10),
+                      getButton("Left Square Small CD:1",
+                          () => const LeftSmall1Page()),
+                      const SizedBox(height: 30),
+
+                      // continuous
+                      getButton("Left Continuous Large CD:1.5",
+                          () => const LeftBig15ContinuousPage()),
+                      const SizedBox(height: 10),
+                      getButton("Left Continuous Small CD:1.5",
+                          () => const LeftSmall1ContinuousPage()),
+                      getButton("Left Continuous Large CD:1",
+                          () => const LeftBig1ContinuousPage()),
+                      const SizedBox(height: 10),
+                      getButton("Left Continuous Small CD:1",
+                          () => const LeftSmall1ContinuousPage()),
+                      const SizedBox(height: 30),
+                    ]),
+                if (ddmHandValue == 'right')
+                  SliverList.list(children: [
+                    // circle
+                    getButton("Right Circle Large CD:1.5",
+                        () => const LeftBig15Page()),
+                    const SizedBox(height: 10),
+                    getButton("Right Circle Small CD:1.5",
+                        () => const LeftSmall15Page()),
+                    const SizedBox(height: 10),
+                    getButton(
+                        "Right Circle Large CD:1", () => const LeftBig1Page()),
+                    const SizedBox(height: 10),
+                    getButton("LeRightft Circle Small CD:1",
+                        () => const LeftSmall1Page()),
+                    const SizedBox(height: 30),
+
+                    // square
+                    getButton("Right Square Large CD:1.5",
+                        () => const LeftBig15Page()),
+                    const SizedBox(height: 10),
+                    getButton("Right Square Small CD:1.5",
+                        () => const LeftSmall15Page()),
+                    const SizedBox(height: 10),
+                    getButton(
+                        "Right Square Large CD:1", () => const LeftBig1Page()),
+                    const SizedBox(height: 10),
+                    getButton("Right Square Small CD:1",
+                        () => const LeftSmall1Page()),
+                    const SizedBox(height: 30),
+
+                    // continuous
+                    getButton("Right Continuous Large CD:1.5",
+                        () => const LeftBig15ContinuousPage()),
+                    const SizedBox(height: 10),
+                    getButton("Right Continuous Small CD:1.5",
+                        () => const LeftSmall1ContinuousPage()),
+                    getButton("Right Continuous Large CD:1",
+                        () => const LeftBig1ContinuousPage()),
+                    const SizedBox(height: 10),
+                    getButton("Right Continuous Small CD:1",
+                        () => const LeftSmall1ContinuousPage()),
+                    const SizedBox(height: 30),
+                  ]),
+
+                // participant 4, 8, 12, 16, 20
+                if (ddmIdValue == 4 ||
+                    ddmIdValue == 8 ||
+                    ddmIdValue == 12 ||
+                    ddmIdValue == 16 ||
+                    ddmIdValue == 20)
+                  if (ddmHandValue == 'left')
+                    SliverList.list(children: [
+                      // square
+                      getButton("Left Square Large CD:1.5",
+                          () => const LeftBig15Page()),
+                      const SizedBox(height: 10),
+                      getButton("Left Square Small CD:1.5",
+                          () => const LeftSmall15Page()),
+                      const SizedBox(height: 10),
+                      getButton(
+                          "Left Square Large CD:1", () => const LeftBig1Page()),
+                      const SizedBox(height: 10),
+                      getButton("Left Square Small CD:1",
+                          () => const LeftSmall1Page()),
+                      const SizedBox(height: 30),
+
+                      // circle
+                      getButton("Left Circle Large CD:1.5",
+                          () => const LeftBig15Page()),
+                      const SizedBox(height: 10),
+                      getButton("Left Circle Small CD:1.5",
+                          () => const LeftSmall15Page()),
+                      const SizedBox(height: 10),
+                      getButton(
+                          "Left Circle Large CD:1", () => const LeftBig1Page()),
+                      const SizedBox(height: 10),
+                      getButton("Left Circle Small CD:1",
+                          () => const LeftSmall1Page()),
+                      const SizedBox(height: 30),
+
+                      // continuous
+                      getButton("Left Continuous Large CD:1.5",
+                          () => const LeftBig15ContinuousPage()),
+                      const SizedBox(height: 10),
+                      getButton("Left Continuous Small CD:1.5",
+                          () => const LeftSmall1ContinuousPage()),
+                      getButton("Left Continuous Large CD:1",
+                          () => const LeftBig1ContinuousPage()),
+                      const SizedBox(height: 10),
+                      getButton("Left Continuous Small CD:1",
+                          () => const LeftSmall1ContinuousPage()),
+                      const SizedBox(height: 30),
+                    ]),
+                if (ddmHandValue == 'right')
+                  SliverList.list(children: [
+                    // square
+                    getButton("Right Square Large CD:1.5",
+                        () => const LeftBig15Page()),
+                    const SizedBox(height: 10),
+                    getButton("Right Square Small CD:1.5",
+                        () => const LeftSmall15Page()),
+                    const SizedBox(height: 10),
+                    getButton(
+                        "Right Square Large CD:1", () => const LeftBig1Page()),
+                    const SizedBox(height: 10),
+                    getButton("Right Square Small CD:1",
+                        () => const LeftSmall1Page()),
+                    const SizedBox(height: 30),
+
+                    // circle
+                    getButton("Right Circle Large CD:1.5",
+                        () => const LeftBig15Page()),
+                    const SizedBox(height: 10),
+                    getButton("Right Circle Small CD:1.5",
+                        () => const LeftSmall15Page()),
+                    const SizedBox(height: 10),
+                    getButton(
+                        "Right Circle Large CD:1", () => const LeftBig1Page()),
+                    const SizedBox(height: 10),
+                    getButton("LeRightft Circle Small CD:1",
+                        () => const LeftSmall1Page()),
+                    const SizedBox(height: 30),
+
+                    // continuous
+                    getButton("Right Continuous Large CD:1.5",
+                        () => const LeftBig15ContinuousPage()),
+                    const SizedBox(height: 10),
+                    getButton("Right Continuous Small CD:1.5",
+                        () => const LeftSmall1ContinuousPage()),
+                    getButton("Right Continuous Large CD:1",
+                        () => const LeftBig1ContinuousPage()),
+                    const SizedBox(height: 10),
+                    getButton("Right Continuous Small CD:1",
+                        () => const LeftSmall1ContinuousPage()),
+                    const SizedBox(height: 30),
+                  ]),
+
+                // export to csv button
                 SliverList.list(children: [
                   ElevatedButton(
                       onPressed: () {
