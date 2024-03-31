@@ -79,7 +79,7 @@ class _RightSmall15ContinuousPageState
   final stopWatch = Stopwatch();
 
   // data to be saved
-  List<String> data = [participantId, pageId];
+  List<String> data = [participantID, pageId];
 
   @override
   Widget build(BuildContext context) {

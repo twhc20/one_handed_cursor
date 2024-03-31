@@ -51,7 +51,8 @@ class LeftSmall15Page extends ConsumerStatefulWidget {
   const LeftSmall15Page({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _LeftSmall15PageState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _LeftSmall15PageState();
 }
 
 class _LeftSmall15PageState extends ConsumerState<LeftSmall15Page> {
@@ -79,7 +80,7 @@ class _LeftSmall15PageState extends ConsumerState<LeftSmall15Page> {
   final splitStopwatch = Stopwatch();
 
   // data to be saved
-  List<String> data = [participantId, pageId];
+  List<String> data = [participantID, pageId];
 
   @override
   Widget build(BuildContext context) {

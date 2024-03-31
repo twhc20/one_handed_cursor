@@ -26,9 +26,8 @@ import 'package:one_handed_cursor/pages/right_small_1.5_page.dart';
 import 'package:one_handed_cursor/pages/right_small_1_page.dart';
 import 'package:one_handed_cursor/pages/right_small_1_page_continuous.dart';
 
-String participantId = '';
+String participantID = '';
 
-final TextEditingController _controller = TextEditingController();
 
 void exportCSV() {
   DateTime now = DateTime.now();
@@ -67,20 +66,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  @override
-  void initState() {
-    super.initState();
-    _controller.addListener(() {
-      participantId = _controller.text;
-    });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,12 +79,24 @@ class _HomePageState extends State<HomePage> {
               slivers: <Widget>[
                 SliverList.list(children: [
                   // participant id
-                  TextField(
-                    controller: _controller,
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Participant ID',
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: DropdownMenu<int>(
+                        hintText: 'Select Participant ID',
+                        width: 370,
+                        menuHeight: 300,
+                        onSelected: (int? newValue) {
+                          // Do something with the selected value
+                          participantID = newValue.toString();
+                        },
+                        dropdownMenuEntries:
+                            List<DropdownMenuEntry<int>>.generate(
+                          20,
+                          (index) => DropdownMenuEntry<int>(
+                              value: index + 1, label: (index + 1).toString()),
+                        ),
+                      ),
                     ),
                   ),
 

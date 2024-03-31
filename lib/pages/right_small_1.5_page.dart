@@ -80,7 +80,7 @@ class _RightSmall15PageState extends ConsumerState<RightSmall15Page> {
   final splitStopwatch = Stopwatch();
 
   // data to be saved
-  List<String> data = [participantId, pageId];
+  List<String> data = [participantID, pageId];
 
   @override
   Widget build(BuildContext context) {

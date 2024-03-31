@@ -57,17 +57,15 @@ class _ContinuousTargetPageState extends ConsumerState<ContinuousTargetPage> {
   final stopWatch = Stopwatch();
 
   // data to be saved
-  List<String> data = [participantId, pageId];
+  List<String> data = [participantID, pageId];
 
   @override
   Widget build(BuildContext context) {
     final currentButtonIndex = ref.watch(buttonIndexProvider(pageId));
 
-    
     ref.listen<int>(buttonIndexProvider(pageId), (int? prevValue, int value) {
       if (value == 20) {
-        setState(() {
-        });
+        setState(() {});
         stopWatch.stop();
         data.add(stopWatch.elapsedMilliseconds.toString());
       }
