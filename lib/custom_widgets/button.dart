@@ -15,8 +15,8 @@ class Button extends ConsumerWidget {
   const Button(
       {this.x = 0,
       this.y = 0,
-      this.width = 40.5,
-      this.height = 40.5,
+      this.width = 48,
+      this.height = 48,
       required this.buttonId,
       required this.pageId,
       super.key});

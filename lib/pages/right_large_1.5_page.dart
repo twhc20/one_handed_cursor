@@ -14,151 +14,7 @@ import 'package:one_handed_cursor/providers/button_index_provider.dart';
 import 'package:one_handed_cursor/unistroke_recogniser/unistroke_recogniser.dart';
 import '../csv/csv.dart';
 
-const String pageId = 'left_big_1_page';
-// List of buttons
-// Each button has an id, x, y, width, height
-// final buttons = [
-//   const Button(
-//       width: 67.5,
-//       height: 67.5,
-//       buttonId: 'basic1',
-//       x: 30,
-//       y: 34,
-//       pageId: pageId),
-//   const Button(
-//       width: 67.5,
-//       height: 67.5,
-//       buttonId: 'basic2',
-//       x: 145,
-//       y: 86,
-//       pageId: pageId),
-//   const Button(
-//       width: 67.5,
-//       height: 67.5,
-//       buttonId: 'basic3',
-//       x: 87,
-//       y: 237,
-//       pageId: pageId),
-//   const Button(
-//       width: 67.5,
-//       height: 67.5,
-//       buttonId: 'basic4',
-//       x: 133,
-//       y: 152,
-//       pageId: pageId),
-//   const Button(
-//       width: 67.5,
-//       height: 67.5,
-//       buttonId: 'basic5',
-//       x: 54,
-//       y: 286,
-//       pageId: pageId),
-//   const Button(
-//       width: 67.5,
-//       height: 67.5,
-//       buttonId: 'basic6',
-//       x: 230,
-//       y: 56,
-//       pageId: pageId),
-//   const Button(
-//       width: 67.5,
-//       height: 67.5,
-//       buttonId: 'basic7',
-//       x: 264,
-//       y: 90,
-//       pageId: pageId),
-//   const Button(
-//       width: 67.5,
-//       height: 67.5,
-//       buttonId: 'basic8',
-//       x: 290,
-//       y: 384,
-//       pageId: pageId),
-//   const Button(
-//       width: 67.5,
-//       height: 67.5,
-//       buttonId: 'basic9',
-//       x: 297,
-//       y: 230,
-//       pageId: pageId),
-//   const Button(
-//       width: 67.5,
-//       height: 67.5,
-//       buttonId: 'basic10',
-//       x: 370,
-//       y: 130,
-//       pageId: pageId),
-//   const Button(
-//       width: 67.5,
-//       height: 67.5,
-//       buttonId: 'basic11',
-//       x: 35,
-//       y: 499,
-//       pageId: pageId),
-//   const Button(
-//       width: 67.5,
-//       height: 67.5,
-//       buttonId: 'basic12',
-//       x: 99,
-//       y: 443,
-//       pageId: pageId),
-//   const Button(
-//       width: 67.5,
-//       height: 67.5,
-//       buttonId: 'basic13',
-//       x: 43,
-//       y: 630,
-//       pageId: pageId),
-//   const Button(
-//       width: 67.5,
-//       height: 67.5,
-//       buttonId: 'basic14',
-//       x: 157,
-//       y: 699,
-//       pageId: pageId),
-//   const Button(
-//       width: 67.5,
-//       height: 67.5,
-//       buttonId: 'basic15',
-//       x: 115,
-//       y: 570,
-//       pageId: pageId),
-//   const Button(
-//       width: 67.5,
-//       height: 67.5,
-//       buttonId: 'basic16',
-//       x: 256,
-//       y: 483,
-//       pageId: pageId),
-//   const Button(
-//       width: 67.5,
-//       height: 67.5,
-//       buttonId: 'basic17',
-//       x: 287,
-//       y: 544,
-//       pageId: pageId),
-//   const Button(
-//       width: 67.5,
-//       height: 67.5,
-//       buttonId: 'basic18',
-//       x: 301,
-//       y: 601,
-//       pageId: pageId),
-//   const Button(
-//       width: 67.5,
-//       height: 67.5,
-//       buttonId: 'basic19',
-//       x: 275,
-//       y: 643,
-//       pageId: pageId),
-//   const Button(
-//       width: 67.5,
-//       height: 67.5,
-//       buttonId: 'basic20',
-//       x: 336,
-//       y: 770,
-//       pageId: pageId),
-// ];
+const String pageId = 'right_large_1.5_page';
 
 // list permutation for buttons to appear in pseudo random order
 int seed = 42;
@@ -167,14 +23,15 @@ RandomList randomList = RandomList(20, random);
 List<int> permutedList = randomList.generate();
 
 //
-class LeftBig1Page extends ConsumerStatefulWidget {
-  const LeftBig1Page({super.key});
+class RightLarge15Page extends ConsumerStatefulWidget {
+  const RightLarge15Page({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _LeftBig1PageState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _RightLarge15PageState();
 }
 
-class _LeftBig1PageState extends ConsumerState<LeftBig1Page> {
+class _RightLarge15PageState extends ConsumerState<RightLarge15Page> {
   // variables for drawing
   Color selectedColor = Colors.transparent;
   double strokeWidth = 3;
@@ -216,25 +73,27 @@ class _LeftBig1PageState extends ConsumerState<LeftBig1Page> {
             .instance.platformDispatcher.views.first.physicalSize.height /
         pixelRatio;
 
-    generateRandomPositions(20, width / 2, 0, height / 2, 5, 0);
-    generateRandomPositions(width / 2, width - 60, 0, height / 2, 5, 1);
-    generateRandomPositions(20, width / 2, height / 2, height - 100, 5, 2);
-    generateRandomPositions(width / 2, width-50, height / 2, height - 100, 5, 3);
+    // for right hand large targets with seed 42
+    generateRandomPositions(0, width / 2, 0, height / 2, 5, 0);
+    generateRandomPositions(width / 2, width - 70, 0, height / 2, 5, 5);
+    generateRandomPositions(0, width / 2, height / 2, height - 100, 5, 10);
+    generateRandomPositions(
+        width / 2, width - 30, height / 2, height - 100, 5, 15);
   }
 
   void generateRandomPositions(double xLowerBound, double xUpperBound,
-      double yLowerBound, double yUpperBound, int count, int quadrant) {
+      double yLowerBound, double yUpperBound, int count, int quadrantCounter) {
     for (int i = 0; i < count; i++) {
       final double x =
           xLowerBound + random.nextDouble() * (xUpperBound - xLowerBound);
       final double y =
           yLowerBound + random.nextDouble() * (yUpperBound - yLowerBound);
       buttons.add(Button(
-          buttonId: pageId + (i + quadrant).toString(),
-          width: 67.5,
-          height: 67.5,
+          buttonId: pageId + (i + quadrantCounter).toString(),
           x: x,
           y: y,
+          width: 72,
+          height: 72,
           pageId: pageId));
     }
   }
@@ -353,8 +212,8 @@ class _LeftBig1PageState extends ConsumerState<LeftBig1Page> {
                   MediaQuery.of(context).size.width - touchpadRect.right,
               initialBottom:
                   MediaQuery.of(context).size.height - touchpadRect.bottom,
-              updateDx: 1,
-              updateDy: 1,
+              updateDx: 1.5,
+              updateDy: 1.5,
               onTouch: (x, y) {
                 cursorNotifier.updatePosition(x, y);
               },

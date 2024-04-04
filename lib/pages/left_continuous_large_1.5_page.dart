@@ -14,169 +14,25 @@ import 'package:one_handed_cursor/pages/home_page.dart';
 import 'package:one_handed_cursor/providers/button_index_provider.dart';
 import 'package:one_handed_cursor/unistroke_recogniser/unistroke_recogniser.dart';
 
-const String pageId = 'left_big_1_continuous_page';
-// List of buttons
-// Each button has an id, x, y, width, height
-final buttons = [
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'continuous1',
-      x: 30,
-      y: 34,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'continuous2',
-      x: 145,
-      y: 86,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'continuous3',
-      x: 87,
-      y: 237,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'continuous4',
-      x: 133,
-      y: 152,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'continuous5',
-      x: 54,
-      y: 286,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'continuous6',
-      x: 230,
-      y: 56,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'continuous7',
-      x: 264,
-      y: 90,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'continuous8',
-      x: 290,
-      y: 384,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'continuous9',
-      x: 297,
-      y: 230,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'continuous10',
-      x: 370,
-      y: 130,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'continuous11',
-      x: 35,
-      y: 199,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'continuous12',
-      x: 99,
-      y: 143,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'continuous13',
-      x: 43,
-      y: 330,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'continuous14',
-      x: 157,
-      y: 399,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'continuous15',
-      x: 115,
-      y: 470,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'continuous16',
-      x: 256,
-      y: 283,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'continuous17',
-      x: 287,
-      y: 444,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'continuous18',
-      x: 301,
-      y: 301,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'continuous19',
-      x: 275,
-      y: 343,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'continuous20',
-      x: 336,
-      y: 470,
-      pageId: pageId),
-];
+const String pageId = 'left_continuous_large_1.5_page';
 
 // list permutation for buttons to appear in pseudo random order
-int seed = 53;
+int seed = 28;
 Random random = Random(seed);
 RandomList randomList = RandomList(20, random);
 List<int> permutedList = randomList.generate();
 
 //
-class LeftBig1ContinuousPage extends ConsumerStatefulWidget {
-  const LeftBig1ContinuousPage({super.key});
+class LeftContinuousLarge15Page extends ConsumerStatefulWidget {
+  const LeftContinuousLarge15Page({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _LeftBig1ContinuousPageState();
+      _LeftBig15ContinuousPageState();
 }
 
-class _LeftBig1ContinuousPageState
-    extends ConsumerState<LeftBig1ContinuousPage> {
+class _LeftBig15ContinuousPageState
+    extends ConsumerState<LeftContinuousLarge15Page> {
   // variables for drawing
   Color selectedColor = Colors.transparent;
   double strokeWidth = 3;
@@ -200,6 +56,44 @@ class _LeftBig1ContinuousPageState
 
   // data to be saved
   List<String> data = [participantID, pageId];
+
+  final List<Button> buttons = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    double pixelRatio =
+        WidgetsBinding.instance.platformDispatcher.views.first.devicePixelRatio;
+    double width = WidgetsBinding
+            .instance.platformDispatcher.views.first.physicalSize.width /
+        pixelRatio;
+    double height = WidgetsBinding
+            .instance.platformDispatcher.views.first.physicalSize.height /
+        pixelRatio;
+
+    // left hand large continuous targets with seed 28
+    generateRandomPositions(0, width - 30, 10, height / 2, 15, 0);
+    generateRandomPositions(
+        width / 2, width - 70, height / 2, height - 100, 5, 15);
+  }
+
+  void generateRandomPositions(double xLowerBound, double xUpperBound,
+      double yLowerBound, double yUpperBound, int count, int quadrantCounter) {
+    for (int i = 0; i < count; i++) {
+      final double x =
+          xLowerBound + random.nextDouble() * (xUpperBound - xLowerBound);
+      final double y =
+          yLowerBound + random.nextDouble() * (yUpperBound - yLowerBound);
+      buttons.add(Button(
+          buttonId: pageId + (i + quadrantCounter).toString(),
+          x: x,
+          y: y,
+          width: 72,
+          height: 72,
+          pageId: pageId));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -284,8 +178,8 @@ class _LeftBig1ContinuousPageState
                   MediaQuery.of(context).size.width - touchpadRect.right,
               initialBottom:
                   MediaQuery.of(context).size.height - touchpadRect.bottom,
-              updateDx: 1,
-              updateDy: 1,
+              updateDx: 1.5,
+              updateDy: 1.5,
               onTouch: (x, y) {
                 cursorNotifier.updatePosition(x, y);
               },

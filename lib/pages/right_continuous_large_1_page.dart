@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:one_handed_cursor/csv/csv.dart';
 import 'package:one_handed_cursor/custom_widgets/button.dart';
 import 'package:one_handed_cursor/custom_widgets/cursor.dart';
 import 'package:one_handed_cursor/custom_widgets/shape_detector.dart';
@@ -12,26 +13,26 @@ import 'package:one_handed_cursor/helper_functions/screen_helper.dart';
 import 'package:one_handed_cursor/pages/home_page.dart';
 import 'package:one_handed_cursor/providers/button_index_provider.dart';
 import 'package:one_handed_cursor/unistroke_recogniser/unistroke_recogniser.dart';
-import '../csv/csv.dart';
 
-const String pageId = 'left_small_1.5_page';
+const String pageId = 'right_continuous_large_1_page';
 
 // list permutation for buttons to appear in pseudo random order
-int seed = 6;
+int seed = 82;
 Random random = Random(seed);
 RandomList randomList = RandomList(20, random);
 List<int> permutedList = randomList.generate();
 
 //
-class LeftSmall15Page extends ConsumerStatefulWidget {
-  const LeftSmall15Page({super.key});
+class RightContinuousLarge1Page extends ConsumerStatefulWidget {
+  const RightContinuousLarge1Page({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _LeftSmall15PageState();
+      _RightContinuousLarge1PageState();
 }
 
-class _LeftSmall15PageState extends ConsumerState<LeftSmall15Page> {
+class _RightContinuousLarge1PageState
+    extends ConsumerState<RightContinuousLarge1Page> {
   // variables for drawing
   Color selectedColor = Colors.transparent;
   double strokeWidth = 3;
@@ -42,18 +43,16 @@ class _LeftSmall15PageState extends ConsumerState<LeftSmall15Page> {
   // cursor widget
   final cursorWidget = const CursorWidget(initialPositionX: 50);
 
-  // variables for starting test
-  bool started = false;
-  bool next = false;
-
   //state variables
   bool isCursorDrawn = false;
   bool isTouchpadDrawn = false;
   Rect touchpadRect = Rect.zero;
 
+  // variables for starting test
+  bool started = false;
+
   // variables for stopwatch
   final stopWatch = Stopwatch();
-  final splitStopwatch = Stopwatch();
 
   // data to be saved
   List<String> data = [participantID, pageId];
@@ -73,11 +72,10 @@ class _LeftSmall15PageState extends ConsumerState<LeftSmall15Page> {
             .instance.platformDispatcher.views.first.physicalSize.height /
         pixelRatio;
 
-    // for left hand small targets with seed 6
-    generateRandomPositions(0, width / 2, 10, height / 2, 5, 0);
-    generateRandomPositions(width / 2, width - 50, 20, height / 2, 5, 5);
-    generateRandomPositions(0, width / 2, height / 2, height - 100, 5, 10);
-    generateRandomPositions(width / 2, width, height / 2, height - 100, 5, 15);
+    // right hand large continuous targets with seed 82
+    generateRandomPositions(0, width - 70, 10, height / 2, 15, 0);
+    generateRandomPositions(
+        0, width / 2 - 100, height / 2, height - 100, 5, 15);
   }
 
   void generateRandomPositions(double xLowerBound, double xUpperBound,
@@ -91,6 +89,8 @@ class _LeftSmall15PageState extends ConsumerState<LeftSmall15Page> {
           buttonId: pageId + (i + quadrantCounter).toString(),
           x: x,
           y: y,
+          width: 72,
+          height: 72,
           pageId: pageId));
     }
   }
@@ -102,22 +102,7 @@ class _LeftSmall15PageState extends ConsumerState<LeftSmall15Page> {
 
     final currentButtonIndex = ref.watch(buttonIndexProvider(pageId));
 
-    void splitTime() {
-      splitStopwatch.stop();
-      if (data.length == 2 * currentButtonIndex + 2) {
-        data.add(splitStopwatch.elapsedMilliseconds.toString());
-      } else {
-        data[2 * currentButtonIndex + 2] =
-            (int.parse(data[2 * currentButtonIndex + 2]) +
-                    splitStopwatch.elapsedMilliseconds)
-                .toString();
-      }
-      splitStopwatch.reset();
-      splitStopwatch.start();
-    }
-
     void onShapeDrawn(String shape, List<Point> points) {
-      splitTime();
       ScreenHelper screenHelper = ScreenHelper(context);
       Offset cursorOffset = screenHelper.getCursorOffset(shape, points);
       setState(() {
@@ -138,26 +123,12 @@ class _LeftSmall15PageState extends ConsumerState<LeftSmall15Page> {
     }
 
     ref.listen<int>(buttonIndexProvider(pageId), (int? prevValue, int value) {
-      stopWatch.stop();
-      splitStopwatch.stop();
-      reset();
-      int splitTime = splitStopwatch.elapsedMilliseconds;
-      int overallTime = stopWatch.elapsedMilliseconds;
-
-      if (data.length == 2 * currentButtonIndex + 2) {
-        data.add("0");
-      }
-
-      if (prevValue == 0) {
-        data.add(splitTime.toString());
-        next = true;
-      } else if (value < buttons.length) {
-        data.add(splitTime.toString());
-        next = true;
-      } else {
-        data.add(splitTime.toString());
-        data.add(overallTime.toString());
-        next = false;
+      if (value == 20) {
+        setState(() {
+          reset();
+        });
+        stopWatch.stop();
+        data.add(stopWatch.elapsedMilliseconds.toString());
       }
     });
 
@@ -186,7 +157,6 @@ class _LeftSmall15PageState extends ConsumerState<LeftSmall15Page> {
                   onPressed: () {
                     setState(() {
                       stopWatch.start();
-                      splitStopwatch.start();
                       started = true;
                     });
                   },
@@ -196,9 +166,8 @@ class _LeftSmall15PageState extends ConsumerState<LeftSmall15Page> {
             ),
           ),
         if (started)
-          if (!next)
-            if (currentButtonIndex < buttons.length)
-              buttons[permutedList[currentButtonIndex]],
+          if (currentButtonIndex < buttons.length)
+            buttons[permutedList[currentButtonIndex]],
         if (isTouchpadDrawn)
           TouchpadWidget(
               cursorPositionX: cursorNotifier.getPositionX(),
@@ -209,8 +178,8 @@ class _LeftSmall15PageState extends ConsumerState<LeftSmall15Page> {
                   MediaQuery.of(context).size.width - touchpadRect.right,
               initialBottom:
                   MediaQuery.of(context).size.height - touchpadRect.bottom,
-              updateDx: 1.5,
-              updateDy: 1.5,
+              updateDx: 1,
+              updateDy: 1,
               onTouch: (x, y) {
                 cursorNotifier.updatePosition(x, y);
               },
@@ -218,7 +187,6 @@ class _LeftSmall15PageState extends ConsumerState<LeftSmall15Page> {
                 for (var button in buttons) {
                   if (cursorNotifier.isCursorOnButton(button)) {
                     button.onTap(ref);
-                    reset();
                   }
                 }
               },
@@ -226,31 +194,6 @@ class _LeftSmall15PageState extends ConsumerState<LeftSmall15Page> {
                 reset();
               }),
         if (isCursorDrawn) cursorWidget,
-        if (next)
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 65,
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: SizedBox(
-                width: 250,
-                height: 150,
-                child: ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      splitStopwatch.reset();
-                      splitStopwatch.start();
-                      stopWatch.start();
-                      next = false;
-                    });
-                  },
-                  child: Text('$currentButtonIndex/20 Next',
-                      style: const TextStyle(fontSize: 30)),
-                ),
-              ),
-            ),
-          ),
         if (currentButtonIndex == buttons.length)
           Positioned(
             left: 0,
@@ -264,8 +207,7 @@ class _LeftSmall15PageState extends ConsumerState<LeftSmall15Page> {
                 child: ElevatedButton(
                   onPressed: () {
                     stopWatch.reset();
-                    splitStopwatch.reset();
-                    rowsCursor.add(data);
+                    continuousRowsCursor.add(data);
                     Navigator.pop(context);
                   },
                   child: const Text('Finished', style: TextStyle(fontSize: 30)),
