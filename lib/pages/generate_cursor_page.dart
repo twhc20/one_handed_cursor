@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,9 +11,16 @@ import 'package:one_handed_cursor/helper_functions/screen_helper.dart';
 import 'package:one_handed_cursor/unistroke_recogniser/unistroke_recogniser.dart';
 
 const String pageId = 'generate_cursor_page';
-final buttons = [
-  const Button(buttonId: '3', x: 130, y: 300.0, pageId: pageId,),
-];
+// final buttons = [
+//   const Button(
+//     buttonId: '3',
+//     x: 130,
+//     y: 300.0,
+//     pageId: pageId,
+//   ),
+// ];
+
+const int seed = 42;
 
 class GenerateCursorPage extends ConsumerStatefulWidget {
   const GenerateCursorPage({super.key});
@@ -34,6 +42,43 @@ class _GenerateCursorPageState extends ConsumerState<GenerateCursorPage> {
   bool isCursorDrawn = false;
   bool isTouchpadDrawn = false;
   Rect touchpadRect = Rect.zero;
+
+  final Random random = Random(seed);
+  final List<Button> buttons = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    double pixelRatio =
+        WidgetsBinding.instance.platformDispatcher.views.first.devicePixelRatio;
+    double width = WidgetsBinding
+            .instance.platformDispatcher.views.first.physicalSize.width /
+        pixelRatio;
+    double height = WidgetsBinding
+            .instance.platformDispatcher.views.first.physicalSize.height /
+        pixelRatio;
+
+    generateRandomPositions(0, width / 2, 0, height / 2, 5, 0);
+    generateRandomPositions(width / 2, width - 30, 0, height / 2, 5, 1);
+    generateRandomPositions(0, width / 2, height / 2, height - 100, 5, 2);
+    generateRandomPositions(width / 2, width, height / 2, height - 100, 5, 3);
+  }
+
+  void generateRandomPositions(double xLowerBound, double xUpperBound,
+      double yLowerBound, double yUpperBound, int count, int quadrant) {
+    for (int i = 0; i < count; i++) {
+      final double x =
+          xLowerBound + random.nextDouble() * (xUpperBound - xLowerBound);
+      final double y =
+          yLowerBound + random.nextDouble() * (yUpperBound - yLowerBound);
+      buttons.add(Button(
+          buttonId: pageId + (i + quadrant).toString(),
+          x: x,
+          y: y,
+          pageId: pageId));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
