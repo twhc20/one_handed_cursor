@@ -12,151 +12,9 @@ import '../csv/csv.dart';
 const String pageId = 'basic_target_page_large';
 // List of buttons
 // Each button has an id, x, y, width, height
-final buttons = [
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'basic1',
-      x: 30,
-      y: 34,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'basic2',
-      x: 145,
-      y: 86,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'basic3',
-      x: 87,
-      y: 237,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'basic4',
-      x: 133,
-      y: 152,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'basic5',
-      x: 54,
-      y: 286,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'basic6',
-      x: 230,
-      y: 56,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'basic7',
-      x: 264,
-      y: 90,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'basic8',
-      x: 290,
-      y: 384,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'basic9',
-      x: 297,
-      y: 230,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'basic10',
-      x: 370,
-      y: 130,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'basic11',
-      x: 35,
-      y: 499,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'basic12',
-      x: 99,
-      y: 443,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'basic13',
-      x: 43,
-      y: 630,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'basic14',
-      x: 157,
-      y: 699,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'basic15',
-      x: 115,
-      y: 570,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'basic16',
-      x: 256,
-      y: 483,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'basic17',
-      x: 287,
-      y: 544,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'basic18',
-      x: 301,
-      y: 601,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'basic19',
-      x: 275,
-      y: 643,
-      pageId: pageId),
-  const Button(
-      width: 67.5,
-      height: 67.5,
-      buttonId: 'basic20',
-      x: 336,
-      y: 770,
-      pageId: pageId),
-];
 
 // list permutation for buttons to appear in pseudo random order
-int seed = 53;
+int seed = 42;
 Random random = Random(seed);
 RandomList randomList = RandomList(20, random);
 List<int> permutedList = randomList.generate();
@@ -184,6 +42,46 @@ class _BasicTargetPageLargeState extends ConsumerState<BasicTargetPageLarge> {
 
   // data to be saved
   List<String> data = [participantID, pageId];
+
+  final List<Button> buttons = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    double pixelRatio =
+        WidgetsBinding.instance.platformDispatcher.views.first.devicePixelRatio;
+    double width = WidgetsBinding
+            .instance.platformDispatcher.views.first.physicalSize.width /
+        pixelRatio;
+    double height = WidgetsBinding
+            .instance.platformDispatcher.views.first.physicalSize.height /
+        pixelRatio;
+
+    // for right hand large targets with seed 42
+    generateRandomPositions(0, width / 2, 0, height / 2, 5, 0);
+    generateRandomPositions(width / 2, width - 70, 0, height / 2, 5, 5);
+    generateRandomPositions(0, width / 2, height / 2, height - 100, 5, 10);
+    generateRandomPositions(
+        width / 2, width - 30, height / 2, height - 100, 5, 15);
+  }
+
+  void generateRandomPositions(double xLowerBound, double xUpperBound,
+      double yLowerBound, double yUpperBound, int count, int quadrantCounter) {
+    for (int i = 0; i < count; i++) {
+      final double x =
+          xLowerBound + random.nextDouble() * (xUpperBound - xLowerBound);
+      final double y =
+          yLowerBound + random.nextDouble() * (yUpperBound - yLowerBound);
+      buttons.add(Button(
+          buttonId: pageId + (i + quadrantCounter).toString(),
+          x: x,
+          y: y,
+          width: 72,
+          height: 72,
+          pageId: pageId));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
