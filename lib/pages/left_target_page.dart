@@ -270,7 +270,8 @@ class _LeftTargetPageState extends ConsumerState<LeftTargetPage> {
               },
               onTap: () {
                 for (var button in buttons) {
-                  if (cursorNotifier.isCursorOnButton(button)) {
+                  if (button == buttons[permutedList[currentButtonIndex]] &&
+                      cursorNotifier.isCursorOnButton(button)) {
                     button.onTap(ref);
                     reset();
                   }

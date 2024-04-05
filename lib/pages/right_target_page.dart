@@ -193,6 +193,7 @@ class _RightTargetPageState extends ConsumerState<RightTargetPage> {
     }
 
     ref.listen<int>(buttonIndexProvider(pageId), (int? prevValue, int value) {
+      print(value);
       stopWatch.stop();
       splitStopwatch.stop();
       reset();
@@ -271,7 +272,8 @@ class _RightTargetPageState extends ConsumerState<RightTargetPage> {
               },
               onTap: () {
                 for (var button in buttons) {
-                  if (cursorNotifier.isCursorOnButton(button)) {
+                  if (button == buttons[permutedList[currentButtonIndex]] &&
+                      cursorNotifier.isCursorOnButton(button)) {
                     button.onTap(ref);
                     reset();
                   }

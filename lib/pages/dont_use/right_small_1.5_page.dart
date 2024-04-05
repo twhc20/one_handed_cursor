@@ -12,26 +12,26 @@ import 'package:one_handed_cursor/helper_functions/screen_helper.dart';
 import 'package:one_handed_cursor/pages/home_page.dart';
 import 'package:one_handed_cursor/providers/button_index_provider.dart';
 import 'package:one_handed_cursor/unistroke_recogniser/unistroke_recogniser.dart';
-import '../csv/csv.dart';
+import '../../csv/csv.dart';
 
-const String pageId = 'right_small_1_page';
+const String pageId = 'right_small_1.5_page';
 
 // list permutation for buttons to appear in pseudo random order
-int seed = 42;
+int seed = 53;
 Random random = Random(seed);
 RandomList randomList = RandomList(20, random);
 List<int> permutedList = randomList.generate();
 
 //
-class RightSmall1Page extends ConsumerStatefulWidget {
-  const RightSmall1Page({super.key});
+class RightSmall15Page extends ConsumerStatefulWidget {
+  const RightSmall15Page({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _RightSmall1PageState();
+      _RightSmall15PageState();
 }
 
-class _RightSmall1PageState extends ConsumerState<RightSmall1Page> {
+class _RightSmall15PageState extends ConsumerState<RightSmall15Page> {
   // variables for drawing
   Color selectedColor = Colors.transparent;
   double strokeWidth = 3;
@@ -209,8 +209,8 @@ class _RightSmall1PageState extends ConsumerState<RightSmall1Page> {
                   MediaQuery.of(context).size.width - touchpadRect.right,
               initialBottom:
                   MediaQuery.of(context).size.height - touchpadRect.bottom,
-              updateDx: 1,
-              updateDy: 1,
+              updateDx: 1.5,
+              updateDy: 1.5,
               onTouch: (x, y) {
                 cursorNotifier.updatePosition(x, y);
               },

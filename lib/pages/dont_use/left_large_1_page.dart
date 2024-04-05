@@ -12,7 +12,7 @@ import 'package:one_handed_cursor/helper_functions/screen_helper.dart';
 import 'package:one_handed_cursor/pages/home_page.dart';
 import 'package:one_handed_cursor/providers/button_index_provider.dart';
 import 'package:one_handed_cursor/unistroke_recogniser/unistroke_recogniser.dart';
-import '../csv/csv.dart';
+import '../../csv/csv.dart';
 
 // list permutation for buttons to appear in pseudo random order
 int seed = 6;

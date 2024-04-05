@@ -29,6 +29,7 @@ class Button extends ConsumerWidget {
     await Future.delayed(const Duration(milliseconds: 10));
     ref.read(counterStateProvider(buttonId).notifier).state++;
     ref.read(buttonIndexProvider(pageId).notifier).state++;
+    await Future.delayed(const Duration(milliseconds: 10));
   }
 
   @override

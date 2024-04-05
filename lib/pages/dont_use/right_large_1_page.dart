@@ -12,26 +12,26 @@ import 'package:one_handed_cursor/helper_functions/screen_helper.dart';
 import 'package:one_handed_cursor/pages/home_page.dart';
 import 'package:one_handed_cursor/providers/button_index_provider.dart';
 import 'package:one_handed_cursor/unistroke_recogniser/unistroke_recogniser.dart';
-import '../csv/csv.dart';
+import '../../csv/csv.dart';
 
-const String pageId = 'left_large_1.5_page';
+const String pageId = 'right_large_1_page';
+// List of buttons
 
 // list permutation for buttons to appear in pseudo random order
-int seed = 6;
+int seed = 42;
 Random random = Random(seed);
 RandomList randomList = RandomList(20, random);
 List<int> permutedList = randomList.generate();
 
 //
-class LeftLarge15Page extends ConsumerStatefulWidget {
-  const LeftLarge15Page({super.key});
+class RightLarge1Page extends ConsumerStatefulWidget {
+  const RightLarge1Page({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _LeftLarge15PageState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _RightLarge1PageState();
 }
 
-class _LeftLarge15PageState extends ConsumerState<LeftLarge15Page> {
+class _RightLarge1PageState extends ConsumerState<RightLarge1Page> {
   // variables for drawing
   Color selectedColor = Colors.transparent;
   double strokeWidth = 3;
@@ -73,12 +73,12 @@ class _LeftLarge15PageState extends ConsumerState<LeftLarge15Page> {
             .instance.platformDispatcher.views.first.physicalSize.height /
         pixelRatio;
 
-    // for left hand large targets with seed 6
-    generateRandomPositions(0, width / 2, 10, height / 2, 5, 0);
-    generateRandomPositions(width / 2, width - 100, 20, height / 2, 5, 5);
+    // for right hand large targets with seed 42
+    generateRandomPositions(0, width / 2, 0, height / 2, 5, 0);
+    generateRandomPositions(width / 2, width - 70, 0, height / 2, 5, 5);
     generateRandomPositions(0, width / 2, height / 2, height - 100, 5, 10);
     generateRandomPositions(
-        width / 2, width - 80, height / 2, height - 100, 5, 15);
+        width / 2, width - 30, height / 2, height - 100, 5, 15);
   }
 
   void generateRandomPositions(double xLowerBound, double xUpperBound,

@@ -12,26 +12,26 @@ import 'package:one_handed_cursor/helper_functions/screen_helper.dart';
 import 'package:one_handed_cursor/pages/home_page.dart';
 import 'package:one_handed_cursor/providers/button_index_provider.dart';
 import 'package:one_handed_cursor/unistroke_recogniser/unistroke_recogniser.dart';
-import '../csv/csv.dart';
+import '../../csv/csv.dart';
 
-const String pageId = 'left_small_1.5_page';
+const String pageId = 'right_small_1_page';
 
 // list permutation for buttons to appear in pseudo random order
-int seed = 6;
+int seed = 42;
 Random random = Random(seed);
 RandomList randomList = RandomList(20, random);
 List<int> permutedList = randomList.generate();
 
 //
-class LeftSmall15Page extends ConsumerStatefulWidget {
-  const LeftSmall15Page({super.key});
+class RightSmall1Page extends ConsumerStatefulWidget {
+  const RightSmall1Page({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _LeftSmall15PageState();
+      _RightSmall1PageState();
 }
 
-class _LeftSmall15PageState extends ConsumerState<LeftSmall15Page> {
+class _RightSmall1PageState extends ConsumerState<RightSmall1Page> {
   // variables for drawing
   Color selectedColor = Colors.transparent;
   double strokeWidth = 3;
@@ -73,9 +73,9 @@ class _LeftSmall15PageState extends ConsumerState<LeftSmall15Page> {
             .instance.platformDispatcher.views.first.physicalSize.height /
         pixelRatio;
 
-    // for left hand small targets with seed 6
-    generateRandomPositions(0, width / 2, 10, height / 2, 5, 0);
-    generateRandomPositions(width / 2, width - 50, 20, height / 2, 5, 5);
+    // for right hand small targets with seed 42
+    generateRandomPositions(0, width / 2, 0, height / 2, 5, 0);
+    generateRandomPositions(width / 2, width - 40, 0, height / 2, 5, 5);
     generateRandomPositions(0, width / 2, height / 2, height - 100, 5, 10);
     generateRandomPositions(width / 2, width, height / 2, height - 100, 5, 15);
   }
@@ -209,8 +209,8 @@ class _LeftSmall15PageState extends ConsumerState<LeftSmall15Page> {
                   MediaQuery.of(context).size.width - touchpadRect.right,
               initialBottom:
                   MediaQuery.of(context).size.height - touchpadRect.bottom,
-              updateDx: 1.5,
-              updateDy: 1.5,
+              updateDx: 1,
+              updateDy: 1,
               onTouch: (x, y) {
                 cursorNotifier.updatePosition(x, y);
               },
