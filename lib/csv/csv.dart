@@ -89,3 +89,16 @@ List<List<dynamic>> continuousRowsCursor = [
     'Overall Time',
   ],
 ];
+
+List<List<dynamic>> shapeData = [
+  [
+    'Partcipant Id',
+    'Page Id',
+    'Shape Drawn',
+    'Center X',
+    'Center Y',
+    'Width',
+    'Height',
+    'Shape Area',
+  ],
+];

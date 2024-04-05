@@ -15,24 +15,30 @@ import 'package:one_handed_cursor/unistroke_recogniser/unistroke_recogniser.dart
 import '../csv/csv.dart';
 
 // list permutation for buttons to appear in pseudo random order
-int seed = 6;
+int seed = 42;
 Random random = Random(seed);
 RandomList randomList = RandomList(20, random);
 List<int> permutedList = randomList.generate();
 
 //
-class LeftLarge1Page extends ConsumerStatefulWidget {
+class RightTargetPage extends ConsumerStatefulWidget {
   final String shapeToBeDrawn;
+  final double targetSize;
+  final double cdGain;
 
-  const LeftLarge1Page(this.shapeToBeDrawn, {super.key});
+  const RightTargetPage(this.shapeToBeDrawn, this.targetSize, this.cdGain,
+      {super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _LeftLarge1PageState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _RightTargetPageState();
 }
 
-class _LeftLarge1PageState extends ConsumerState<LeftLarge1Page> {
-  String pageId = 'left_large_1_page';
+class _RightTargetPageState extends ConsumerState<RightTargetPage> {
+  String pageId = 'right_target_page';
   String shapeToBeDrawn = '';
+  double targetSize = 0;
+  double cdGain = 0;
 
   // variables for drawing
   Color selectedColor = Colors.transparent;
@@ -67,7 +73,11 @@ class _LeftLarge1PageState extends ConsumerState<LeftLarge1Page> {
     super.initState();
 
     shapeToBeDrawn = widget.shapeToBeDrawn;
-    pageId = "${shapeToBeDrawn}_$pageId";
+    targetSize = widget.targetSize;
+    String targetSizeString = targetSize == 42 ? 'small' : 'large';
+    cdGain = widget.cdGain;
+    pageId =
+        "${shapeToBeDrawn}_cd:${cdGain}_targeSize:${targetSizeString}_$pageId";
     data.add(pageId);
 
     double pixelRatio =
@@ -79,16 +89,35 @@ class _LeftLarge1PageState extends ConsumerState<LeftLarge1Page> {
             .instance.platformDispatcher.views.first.physicalSize.height /
         pixelRatio;
 
-    // for left hand large targets with seed 6
-    generateRandomPositions(0, width / 2, 10, height / 2, 5, 0);
-    generateRandomPositions(width / 2, width - 100, 20, height / 2, 5, 5);
-    generateRandomPositions(0, width / 2, height / 2, height - 100, 5, 10);
-    generateRandomPositions(
-        width / 2, width - 80, height / 2, height - 100, 5, 15);
+    if (targetSize == 42) {
+      // for right hand small targets with seed 42
+      generateRandomPositions(0, width / 2, 0, height / 2, 5, 0, targetSize);
+      generateRandomPositions(
+          width / 2, width - 40, 0, height / 2, 5, 5, targetSize);
+      generateRandomPositions(
+          0, width / 2, height / 2, height - 100, 5, 10, targetSize);
+      generateRandomPositions(
+          width / 2, width, height / 2, height - 100, 5, 15, targetSize);
+    } else if (targetSize == 72) {
+      // for right hand large targets with seed 42
+      generateRandomPositions(0, width / 2, 0, height / 2, 5, 0, targetSize);
+      generateRandomPositions(
+          width / 2, width - 70, 0, height / 2, 5, 5, targetSize);
+      generateRandomPositions(
+          0, width / 2, height / 2, height - 100, 5, 10, targetSize);
+      generateRandomPositions(
+          width / 2, width - 30, height / 2, height - 100, 5, 15, targetSize);
+    }
   }
 
-  void generateRandomPositions(double xLowerBound, double xUpperBound,
-      double yLowerBound, double yUpperBound, int count, int quadrantCounter) {
+  void generateRandomPositions(
+      double xLowerBound,
+      double xUpperBound,
+      double yLowerBound,
+      double yUpperBound,
+      int count,
+      int quadrantCounter,
+      double targetSize) {
     for (int i = 0; i < count; i++) {
       final double x =
           xLowerBound + random.nextDouble() * (xUpperBound - xLowerBound);
@@ -98,8 +127,8 @@ class _LeftLarge1PageState extends ConsumerState<LeftLarge1Page> {
           buttonId: pageId + (i + quadrantCounter).toString(),
           x: x,
           y: y,
-          width: 72,
-          height: 72,
+          width: targetSize,
+          height: targetSize,
           pageId: pageId));
     }
   }
@@ -235,8 +264,8 @@ class _LeftLarge1PageState extends ConsumerState<LeftLarge1Page> {
                   MediaQuery.of(context).size.width - touchpadRect.right,
               initialBottom:
                   MediaQuery.of(context).size.height - touchpadRect.bottom,
-              updateDx: 1,
-              updateDy: 1,
+              updateDx: cdGain,
+              updateDy: cdGain,
               onTouch: (x, y) {
                 cursorNotifier.updatePosition(x, y);
               },

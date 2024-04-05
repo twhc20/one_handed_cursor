@@ -21,18 +21,23 @@ RandomList randomList = RandomList(20, random);
 List<int> permutedList = randomList.generate();
 
 //
-class LeftLarge1Page extends ConsumerStatefulWidget {
+class LeftTargetPage extends ConsumerStatefulWidget {
   final String shapeToBeDrawn;
+  final double targetSize;
+  final double cdGain;
 
-  const LeftLarge1Page(this.shapeToBeDrawn, {super.key});
+  const LeftTargetPage(this.shapeToBeDrawn, this.targetSize, this.cdGain,
+      {super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _LeftLarge1PageState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _LeftTargetPageState();
 }
 
-class _LeftLarge1PageState extends ConsumerState<LeftLarge1Page> {
-  String pageId = 'left_large_1_page';
+class _LeftTargetPageState extends ConsumerState<LeftTargetPage> {
+  String pageId = 'left_target_page';
   String shapeToBeDrawn = '';
+  double targetSize = 0;
+  double cdGain = 0;
 
   // variables for drawing
   Color selectedColor = Colors.transparent;
@@ -67,7 +72,11 @@ class _LeftLarge1PageState extends ConsumerState<LeftLarge1Page> {
     super.initState();
 
     shapeToBeDrawn = widget.shapeToBeDrawn;
-    pageId = "${shapeToBeDrawn}_$pageId";
+    targetSize = widget.targetSize;
+    String targetSizeString = targetSize == 42 ? 'small' : 'large';
+    cdGain = widget.cdGain;
+    pageId =
+        "${shapeToBeDrawn}_cd:${cdGain}_targeSize:${targetSizeString}_$pageId";
     data.add(pageId);
 
     double pixelRatio =
@@ -79,16 +88,35 @@ class _LeftLarge1PageState extends ConsumerState<LeftLarge1Page> {
             .instance.platformDispatcher.views.first.physicalSize.height /
         pixelRatio;
 
-    // for left hand large targets with seed 6
-    generateRandomPositions(0, width / 2, 10, height / 2, 5, 0);
-    generateRandomPositions(width / 2, width - 100, 20, height / 2, 5, 5);
-    generateRandomPositions(0, width / 2, height / 2, height - 100, 5, 10);
-    generateRandomPositions(
-        width / 2, width - 80, height / 2, height - 100, 5, 15);
+    if (targetSize == 42) {
+      // for left hand small targets with seed 6
+      generateRandomPositions(0, width / 2, 10, height / 2, 5, 0, targetSize);
+      generateRandomPositions(
+          width / 2, width - 50, 20, height / 2, 5, 5, targetSize);
+      generateRandomPositions(
+          0, width / 2, height / 2, height - 100, 5, 10, targetSize);
+      generateRandomPositions(
+          width / 2, width, height / 2, height - 100, 5, 15, targetSize);
+    } else if (targetSize == 72) {
+      // for left hand large targets with seed 6
+      generateRandomPositions(0, width / 2, 10, height / 2, 5, 0, targetSize);
+      generateRandomPositions(
+          width / 2, width - 100, 20, height / 2, 5, 5, targetSize);
+      generateRandomPositions(
+          0, width / 2, height / 2, height - 100, 5, 10, targetSize);
+      generateRandomPositions(
+          width / 2, width - 80, height / 2, height - 100, 5, 15, targetSize);
+    }
   }
 
-  void generateRandomPositions(double xLowerBound, double xUpperBound,
-      double yLowerBound, double yUpperBound, int count, int quadrantCounter) {
+  void generateRandomPositions(
+      double xLowerBound,
+      double xUpperBound,
+      double yLowerBound,
+      double yUpperBound,
+      int count,
+      int quadrantCounter,
+      double targetSize) {
     for (int i = 0; i < count; i++) {
       final double x =
           xLowerBound + random.nextDouble() * (xUpperBound - xLowerBound);
@@ -98,8 +126,8 @@ class _LeftLarge1PageState extends ConsumerState<LeftLarge1Page> {
           buttonId: pageId + (i + quadrantCounter).toString(),
           x: x,
           y: y,
-          width: 72,
-          height: 72,
+          width: targetSize,
+          height: targetSize,
           pageId: pageId));
     }
   }
@@ -235,8 +263,8 @@ class _LeftLarge1PageState extends ConsumerState<LeftLarge1Page> {
                   MediaQuery.of(context).size.width - touchpadRect.right,
               initialBottom:
                   MediaQuery.of(context).size.height - touchpadRect.bottom,
-              updateDx: 1,
-              updateDy: 1,
+              updateDx: cdGain,
+              updateDy: cdGain,
               onTouch: (x, y) {
                 cursorNotifier.updatePosition(x, y);
               },

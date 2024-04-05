@@ -179,4 +179,29 @@ class ScreenHelper {
 
     return Rect.fromLTRB(left, top, right, bottom);
   }
+
+  double getCenterX (String shape, List<Point> points) {
+    List<Point> vertices = getVertices(points);
+    return (vertices[0].x + vertices[3].x) / 2;
+  }
+
+  double getCenterY (String shape, List<Point> points) {
+    List<Point> vertices = getVertices(points);
+    return (vertices[0].y + vertices[3].y) / 2;
+  }
+
+  double getWidth (String shape, List<Point> points) {
+    List<Point> vertices = getVertices(points);
+    return vertices[3].x - vertices[0].x;
+  }
+
+  double getHeight (String shape, List<Point> points) {
+    List<Point> vertices = getVertices(points);
+    return vertices[3].y - vertices[0].y;
+  }
+
+  double getArea (String shape, List<Point> points) {
+    List<Point> vertices = getVertices(points);
+    return (vertices[3].x - vertices[0].x) * (vertices[3].y - vertices[0].y);
+  }
 }

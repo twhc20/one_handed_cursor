@@ -11,22 +11,10 @@ import 'package:one_handed_cursor/pages/continuous_target_page.dart';
 import 'package:one_handed_cursor/pages/continuous_target_page_large.dart';
 import 'package:one_handed_cursor/pages/generate_cursor_page.dart';
 import 'package:one_handed_cursor/pages/gesture_detector_page.dart';
-import 'package:one_handed_cursor/pages/left_large_1.5_page.dart';
-import 'package:one_handed_cursor/pages/left_continuous_large_1.5_page.dart';
-import 'package:one_handed_cursor/pages/left_large_1_page.dart';
-import 'package:one_handed_cursor/pages/left_continuous_large_1_page.dart';
-import 'package:one_handed_cursor/pages/left_small_1.5_page.dart';
-import 'package:one_handed_cursor/pages/left_continuous_small_1.5_page.dart';
-import 'package:one_handed_cursor/pages/left_small_1_page.dart';
-import 'package:one_handed_cursor/pages/left_continuous_small_1_page.dart';
-import 'package:one_handed_cursor/pages/right_continuous_small_1.5_page.dart';
-import 'package:one_handed_cursor/pages/right_large_1.5_page.dart';
-import 'package:one_handed_cursor/pages/right_continuous_large_1.5_page.dart';
-import 'package:one_handed_cursor/pages/right_large_1_page.dart';
-import 'package:one_handed_cursor/pages/right_continuous_large_1_page.dart';
-import 'package:one_handed_cursor/pages/right_small_1.5_page.dart';
-import 'package:one_handed_cursor/pages/right_small_1_page.dart';
-import 'package:one_handed_cursor/pages/right_continuous_small_1_page.dart';
+import 'package:one_handed_cursor/pages/left_continuous_target_page.dart';
+import 'package:one_handed_cursor/pages/left_target_page.dart';
+import 'package:one_handed_cursor/pages/right_continuous_target_page.dart';
+import 'package:one_handed_cursor/pages/right_target_page.dart';
 
 String participantID = '';
 String participantHand = '';
@@ -49,6 +37,9 @@ void exportCSV() {
       const ListToCsvConverter().convert(continuousRowsCursor);
   FileStorage.writeCounter(
       continuousRowsCursorCSV, "continuousRowsCursor-$formattedDate.csv");
+
+  String shapeDataCSV = const ListToCsvConverter().convert(shapeData);
+  FileStorage.writeCounter(shapeDataCSV, "shapeDataCSV-$formattedDate.csv");
 
   Fluttertoast.showToast(
       msg: "CSV files exported to device storage",
@@ -82,6 +73,13 @@ class _HomePageState extends State<HomePage> {
 
   int ddmIdValue = 0;
   String ddmHandValue = '';
+
+  double cdGain1 = 1;
+  double cdGain15 = 1.5;
+  double smallTarget = 42;
+  double largeTarget = 72;
+  String circle = 'Circle';
+  String square = 'Square';
 
   @override
   Widget build(BuildContext context) {
@@ -195,44 +193,48 @@ class _HomePageState extends State<HomePage> {
                     SliverList.list(children: [
                       // circle
                       getButton("Left Circle Large CD:1",
-                          () => const LeftLarge1Page()),
+                          () => LeftTargetPage(circle, largeTarget, cdGain1)),
                       const SizedBox(height: 10),
                       getButton("Left Circle Small CD:1",
-                          () => const LeftSmall1Page()),
+                          () => LeftTargetPage(circle, smallTarget, cdGain1)),
                       const SizedBox(height: 10),
                       getButton("Left Circle Large CD:1.5",
-                          () => const LeftLarge15Page()),
+                          () => LeftTargetPage(circle, largeTarget, cdGain15)),
                       const SizedBox(height: 10),
                       getButton("Left Circle Small CD:1.5",
-                          () => const LeftSmall15Page()),
+                          () => LeftTargetPage(circle, smallTarget, cdGain15)),
                       const SizedBox(height: 30),
 
                       // square
                       getButton("Left Square Large CD:1",
-                          () => const LeftLarge1Page()),
+                          () => LeftTargetPage(square, largeTarget, cdGain1)),
                       const SizedBox(height: 10),
                       getButton("Left Square Small CD:1",
-                          () => const LeftSmall1Page()),
+                          () => LeftTargetPage(square, smallTarget, cdGain1)),
                       const SizedBox(height: 10),
                       getButton("Left Square Large CD:1.5",
-                          () => const LeftLarge15Page()),
+                          () => LeftTargetPage(square, largeTarget, cdGain15)),
                       const SizedBox(height: 10),
                       getButton("Left Square Small CD:1.5",
-                          () => const LeftSmall15Page()),
+                          () => LeftTargetPage(square, smallTarget, cdGain15)),
                       const SizedBox(height: 30),
 
                       // continuous
                       getButton("Left Continuous Large CD:1",
-                          () => const LeftContinuousLarge1Page()),
+                          () => LeftContinuousTargetPage(largeTarget, cdGain1)),
                       const SizedBox(height: 10),
                       getButton("Left Continuous Small CD:1",
-                          () => const LeftContinuousSmall1Page()),
+                          () => LeftContinuousTargetPage(smallTarget, cdGain1)),
                       const SizedBox(height: 10),
-                      getButton("Left Continuous Large CD:1.5",
-                          () => const LeftContinuousLarge15Page()),
+                      getButton(
+                          "Left Continuous Large CD:1.5",
+                          () =>
+                              LeftContinuousTargetPage(largeTarget, cdGain15)),
                       const SizedBox(height: 10),
-                      getButton("Left Continuous Small CD:1.5",
-                          () => const LeftContinuousSmall15Page()),
+                      getButton(
+                          "Left Continuous Small CD:1.5",
+                          () =>
+                              LeftContinuousTargetPage(smallTarget, cdGain15)),
                       const SizedBox(height: 30),
                     ]),
                 // participant 1, 5, 9, 13, 17
@@ -245,44 +247,52 @@ class _HomePageState extends State<HomePage> {
                     SliverList.list(children: [
                       // circle
                       getButton("Right Circle Large CD:1",
-                          () => const RightLarge1Page()),
+                          () => RightTargetPage(circle, largeTarget, cdGain1)),
                       const SizedBox(height: 10),
                       getButton("Right Circle Small CD:1",
-                          () => const RightSmall1Page()),
+                          () => RightTargetPage(circle, smallTarget, cdGain1)),
                       const SizedBox(height: 10),
                       getButton("Right Circle Large CD:1.5",
-                          () => const RightLarge15Page()),
+                          () => RightTargetPage(circle, largeTarget, cdGain15)),
                       const SizedBox(height: 10),
                       getButton("Right Circle Small CD:1.5",
-                          () => const RightSmall1Page()),
+                          () => RightTargetPage(circle, smallTarget, cdGain15)),
                       const SizedBox(height: 30),
 
                       // square
                       getButton("Right Square Large CD:1",
-                          () => const RightLarge1Page()),
+                          () => RightTargetPage(square, largeTarget, cdGain1)),
                       const SizedBox(height: 10),
                       getButton("Right Square Small CD:1",
-                          () => const RightSmall1Page()),
+                          () => RightTargetPage(square, smallTarget, cdGain1)),
                       const SizedBox(height: 10),
                       getButton("Right Square Large CD:1.5",
-                          () => const RightLarge1Page()),
+                          () => RightTargetPage(square, largeTarget, cdGain15)),
                       const SizedBox(height: 10),
                       getButton("Right Square Small CD:1.5",
-                          () => const RightSmall1Page()),
+                          () => RightTargetPage(square, smallTarget, cdGain15)),
                       const SizedBox(height: 30),
 
                       // continuous
-                      getButton("Right Continuous Large CD:1",
-                          () => const RightContinuousLarge1Page()),
+                      getButton(
+                          "Right Continuous Large CD:1",
+                          () =>
+                              RightContinuousTargetPage(largeTarget, cdGain1)),
                       const SizedBox(height: 10),
-                      getButton("Right Continuous Small CD:1",
-                          () => const RightContinuousSmall1Page()),
+                      getButton(
+                          "Right Continuous Small CD:1",
+                          () =>
+                              RightContinuousTargetPage(smallTarget, cdGain1)),
                       const SizedBox(height: 10),
-                      getButton("Right Continuous Large CD:1.5",
-                          () => const RightContinuousLarge15Page()),
+                      getButton(
+                          "Right Continuous Large CD:1.5",
+                          () =>
+                              RightContinuousTargetPage(largeTarget, cdGain15)),
                       const SizedBox(height: 10),
-                      getButton("Right Continuous Small CD:1.5",
-                          () => const RightContinuousSmall15Page()),
+                      getButton(
+                          "Right Continuous Small CD:1.5",
+                          () =>
+                              RightContinuousTargetPage(smallTarget, cdGain15)),
                       const SizedBox(height: 30),
                     ]),
 
@@ -296,44 +306,48 @@ class _HomePageState extends State<HomePage> {
                     SliverList.list(children: [
                       // square
                       getButton("Left Square Large CD:1",
-                          () => const LeftLarge1Page()),
+                          () => LeftTargetPage(square, largeTarget, cdGain1)),
                       const SizedBox(height: 10),
                       getButton("Left Square Small CD:1",
-                          () => const LeftSmall1Page()),
+                          () => LeftTargetPage(square, smallTarget, cdGain1)),
                       const SizedBox(height: 10),
                       getButton("Left Square Large CD:1.5",
-                          () => const LeftLarge15Page()),
+                          () => LeftTargetPage(square, largeTarget, cdGain15)),
                       const SizedBox(height: 10),
                       getButton("Left Square Small CD:1.5",
-                          () => const LeftSmall15Page()),
+                          () => LeftTargetPage(square, smallTarget, cdGain15)),
                       const SizedBox(height: 30),
 
                       // circle
                       getButton("Left Circle Large CD:1",
-                          () => const LeftLarge1Page()),
+                          () => LeftTargetPage(circle, largeTarget, cdGain1)),
                       const SizedBox(height: 10),
                       getButton("Left Circle Small CD:1",
-                          () => const LeftSmall1Page()),
+                          () => LeftTargetPage(circle, smallTarget, cdGain1)),
                       const SizedBox(height: 10),
                       getButton("Left Circle Large CD:1.5",
-                          () => const LeftLarge15Page()),
+                          () => LeftTargetPage(circle, largeTarget, cdGain15)),
                       const SizedBox(height: 10),
                       getButton("Left Circle Small CD:1.5",
-                          () => const LeftSmall15Page()),
+                          () => LeftTargetPage(circle, smallTarget, cdGain15)),
                       const SizedBox(height: 30),
 
                       // continuous
                       getButton("Left Continuous Large CD:1",
-                          () => const LeftContinuousLarge1Page()),
+                          () => LeftContinuousTargetPage(largeTarget, cdGain1)),
                       const SizedBox(height: 10),
                       getButton("Left Continuous Small CD:1",
-                          () => const LeftContinuousSmall1Page()),
+                          () => LeftContinuousTargetPage(smallTarget, cdGain1)),
                       const SizedBox(height: 10),
-                      getButton("Left Continuous Large CD:1.5",
-                          () => const LeftContinuousLarge15Page()),
+                      getButton(
+                          "Left Continuous Large CD:1.5",
+                          () =>
+                              LeftContinuousTargetPage(largeTarget, cdGain15)),
                       const SizedBox(height: 10),
-                      getButton("Left Continuous Small CD:1.5",
-                          () => const LeftContinuousSmall15Page()),
+                      getButton(
+                          "Left Continuous Small CD:1.5",
+                          () =>
+                              LeftContinuousTargetPage(smallTarget, cdGain15)),
                       const SizedBox(height: 30),
                     ]),
                 if (ddmIdValue == 2 ||
@@ -345,44 +359,52 @@ class _HomePageState extends State<HomePage> {
                     SliverList.list(children: [
                       // square
                       getButton("Right Square Large CD:1",
-                          () => const RightLarge1Page()),
+                          () => RightTargetPage(square, largeTarget, cdGain1)),
                       const SizedBox(height: 10),
                       getButton("Right Square Small CD:1",
-                          () => const RightSmall1Page()),
+                          () => RightTargetPage(square, smallTarget, cdGain1)),
                       const SizedBox(height: 10),
                       getButton("Right Square Large CD:1.5",
-                          () => const RightLarge15Page()),
+                          () => RightTargetPage(square, largeTarget, cdGain15)),
                       const SizedBox(height: 10),
                       getButton("Right Square Small CD:1.5",
-                          () => const RightSmall15Page()),
+                          () => RightTargetPage(square, smallTarget, cdGain15)),
                       const SizedBox(height: 30),
 
                       // circle
                       getButton("Right Circle Large CD:1",
-                          () => const RightLarge1Page()),
+                          () => RightTargetPage(circle, largeTarget, cdGain1)),
                       const SizedBox(height: 10),
                       getButton("Right Circle Small CD:1",
-                          () => const RightSmall1Page()),
+                          () => RightTargetPage(circle, smallTarget, cdGain1)),
                       const SizedBox(height: 10),
                       getButton("Right Circle Large CD:1.5",
-                          () => const RightLarge15Page()),
+                          () => RightTargetPage(circle, largeTarget, cdGain15)),
                       const SizedBox(height: 10),
                       getButton("Right Circle Small CD:1.5",
-                          () => const RightSmall15Page()),
+                          () => RightTargetPage(circle, smallTarget, cdGain15)),
                       const SizedBox(height: 30),
 
                       // continuous
-                      getButton("Right Continuous Large CD:1",
-                          () => const RightContinuousLarge1Page()),
+                      getButton(
+                          "Right Continuous Large CD:1",
+                          () =>
+                              RightContinuousTargetPage(largeTarget, cdGain1)),
                       const SizedBox(height: 10),
-                      getButton("Right Continuous Small CD:1",
-                          () => const RightContinuousSmall1Page()),
+                      getButton(
+                          "Right Continuous Small CD:1",
+                          () =>
+                              RightContinuousTargetPage(smallTarget, cdGain1)),
                       const SizedBox(height: 10),
-                      getButton("Right Continuous Large CD:1.5",
-                          () => const RightContinuousLarge15Page()),
+                      getButton(
+                          "Right Continuous Large CD:1.5",
+                          () =>
+                              RightContinuousTargetPage(largeTarget, cdGain15)),
                       const SizedBox(height: 10),
-                      getButton("Right Continuous Small CD:1.5",
-                          () => const RightContinuousSmall15Page()),
+                      getButton(
+                          "Right Continuous Small CD:1.5",
+                          () =>
+                              RightContinuousTargetPage(smallTarget, cdGain15)),
                       const SizedBox(height: 30),
                     ]),
 
@@ -396,43 +418,47 @@ class _HomePageState extends State<HomePage> {
                     SliverList.list(children: [
                       // circle
                       getButton("Left Circle Large CD:1.5",
-                          () => const LeftLarge15Page()),
+                          () => LeftTargetPage(circle, largeTarget, cdGain15)),
                       const SizedBox(height: 10),
                       getButton("Left Circle Small CD:1.5",
-                          () => const LeftSmall15Page()),
+                          () => LeftTargetPage(circle, smallTarget, cdGain15)),
                       const SizedBox(height: 10),
                       getButton("Left Circle Large CD:1",
-                          () => const LeftLarge1Page()),
+                          () => LeftTargetPage(circle, largeTarget, cdGain1)),
                       const SizedBox(height: 10),
                       getButton("Left Circle Small CD:1",
-                          () => const LeftSmall1Page()),
+                          () => LeftTargetPage(circle, smallTarget, cdGain1)),
                       const SizedBox(height: 30),
 
                       // square
                       getButton("Left Square Large CD:1.5",
-                          () => const LeftLarge15Page()),
+                          () => LeftTargetPage(square, largeTarget, cdGain15)),
                       const SizedBox(height: 10),
                       getButton("Left Square Small CD:1.5",
-                          () => const LeftSmall15Page()),
+                          () => LeftTargetPage(square, smallTarget, cdGain15)),
                       const SizedBox(height: 10),
                       getButton("Left Square Large CD:1",
-                          () => const LeftLarge1Page()),
+                          () => LeftTargetPage(square, largeTarget, cdGain1)),
                       const SizedBox(height: 10),
                       getButton("Left Square Small CD:1",
-                          () => const LeftSmall1Page()),
+                          () => LeftTargetPage(square, smallTarget, cdGain1)),
                       const SizedBox(height: 30),
 
                       // continuous
-                      getButton("Left Continuous Large CD:1.5",
-                          () => const LeftContinuousLarge15Page()),
+                      getButton(
+                          "Left Continuous Large CD:1.5",
+                          () =>
+                              LeftContinuousTargetPage(largeTarget, cdGain15)),
                       const SizedBox(height: 10),
-                      getButton("Left Continuous Small CD:1.5",
-                          () => const LeftContinuousSmall15Page()),
+                      getButton(
+                          "Left Continuous Small CD:1.5",
+                          () =>
+                              LeftContinuousTargetPage(smallTarget, cdGain15)),
                       getButton("Left Continuous Large CD:1",
-                          () => const LeftContinuousLarge1Page()),
+                          () => LeftContinuousTargetPage(largeTarget, cdGain1)),
                       const SizedBox(height: 10),
                       getButton("Left Continuous Small CD:1",
-                          () => const LeftContinuousSmall1Page()),
+                          () => LeftContinuousTargetPage(smallTarget, cdGain1)),
                       const SizedBox(height: 30),
                     ]),
                 if (ddmIdValue == 3 ||
@@ -444,43 +470,51 @@ class _HomePageState extends State<HomePage> {
                     SliverList.list(children: [
                       // circle
                       getButton("Right Circle Large CD:1.5",
-                          () => const RightLarge15Page()),
+                          () => RightTargetPage(circle, largeTarget, cdGain15)),
                       const SizedBox(height: 10),
                       getButton("Right Circle Small CD:1.5",
-                          () => const RightSmall15Page()),
+                          () => RightTargetPage(circle, smallTarget, cdGain15)),
                       const SizedBox(height: 10),
                       getButton("Right Circle Large CD:1",
-                          () => const RightLarge1Page()),
+                          () => RightTargetPage(circle, largeTarget, cdGain1)),
                       const SizedBox(height: 10),
                       getButton("Right Circle Small CD:1",
-                          () => const RightSmall1Page()),
+                          () => RightTargetPage(circle, smallTarget, cdGain1)),
                       const SizedBox(height: 30),
 
                       // square
                       getButton("Right Square Large CD:1.5",
-                          () => const RightLarge15Page()),
+                          () => RightTargetPage(square, largeTarget, cdGain15)),
                       const SizedBox(height: 10),
                       getButton("Right Square Small CD:1.5",
-                          () => const RightSmall15Page()),
+                          () => RightTargetPage(square, smallTarget, cdGain15)),
                       const SizedBox(height: 10),
                       getButton("Right Square Large CD:1",
-                          () => const RightLarge1Page()),
+                          () => RightTargetPage(square, largeTarget, cdGain1)),
                       const SizedBox(height: 10),
                       getButton("Right Square Small CD:1",
-                          () => const RightSmall1Page()),
+                          () => RightTargetPage(square, smallTarget, cdGain1)),
                       const SizedBox(height: 30),
 
                       // continuous
-                      getButton("Right Continuous Large CD:1.5",
-                          () => const RightContinuousLarge15Page()),
+                      getButton(
+                          "Right Continuous Large CD:1.5",
+                          () =>
+                              RightContinuousTargetPage(largeTarget, cdGain15)),
                       const SizedBox(height: 10),
-                      getButton("Right Continuous Small CD:1.5",
-                          () => const RightContinuousSmall15Page()),
-                      getButton("Right Continuous Large CD:1",
-                          () => const RightContinuousLarge1Page()),
+                      getButton(
+                          "Right Continuous Small CD:1.5",
+                          () =>
+                              RightContinuousTargetPage(smallTarget, cdGain15)),
+                      getButton(
+                          "Right Continuous Large CD:1",
+                          () =>
+                              RightContinuousTargetPage(largeTarget, cdGain1)),
                       const SizedBox(height: 10),
-                      getButton("Right Continuous Small CD:1",
-                          () => const RightContinuousSmall1Page()),
+                      getButton(
+                          "Right Continuous Small CD:1",
+                          () =>
+                              RightContinuousTargetPage(smallTarget, cdGain1)),
                       const SizedBox(height: 30),
                     ]),
 
@@ -494,43 +528,47 @@ class _HomePageState extends State<HomePage> {
                     SliverList.list(children: [
                       // square
                       getButton("Left Square Large CD:1.5",
-                          () => const LeftLarge15Page()),
+                          () => LeftTargetPage(square, largeTarget, cdGain15)),
                       const SizedBox(height: 10),
                       getButton("Left Square Small CD:1.5",
-                          () => const LeftSmall15Page()),
+                          () => LeftTargetPage(square, smallTarget, cdGain15)),
                       const SizedBox(height: 10),
                       getButton("Left Square Large CD:1",
-                          () => const LeftLarge1Page()),
+                          () => LeftTargetPage(square, largeTarget, cdGain1)),
                       const SizedBox(height: 10),
                       getButton("Left Square Small CD:1",
-                          () => const LeftSmall1Page()),
+                          () => LeftTargetPage(square, smallTarget, cdGain1)),
                       const SizedBox(height: 30),
 
                       // circle
                       getButton("Left Circle Large CD:1.5",
-                          () => const LeftLarge15Page()),
+                          () => LeftTargetPage(circle, largeTarget, cdGain15)),
                       const SizedBox(height: 10),
                       getButton("Left Circle Small CD:1.5",
-                          () => const LeftSmall15Page()),
+                          () => LeftTargetPage(circle, smallTarget, cdGain15)),
                       const SizedBox(height: 10),
                       getButton("Left Circle Large CD:1",
-                          () => const LeftLarge1Page()),
+                          () => LeftTargetPage(circle, largeTarget, cdGain1)),
                       const SizedBox(height: 10),
                       getButton("Left Circle Small CD:1",
-                          () => const LeftSmall1Page()),
+                          () => LeftTargetPage(circle, smallTarget, cdGain1)),
                       const SizedBox(height: 30),
 
                       // continuous
-                      getButton("Left Continuous Large CD:1.5",
-                          () => const LeftContinuousLarge15Page()),
+                      getButton(
+                          "Left Continuous Large CD:1.5",
+                          () =>
+                              LeftContinuousTargetPage(largeTarget, cdGain15)),
                       const SizedBox(height: 10),
-                      getButton("Left Continuous Small CD:1.5",
-                          () => const LeftContinuousSmall1Page()),
+                      getButton(
+                          "Left Continuous Small CD:1.5",
+                          () =>
+                              LeftContinuousTargetPage(smallTarget, cdGain15)),
                       getButton("Left Continuous Large CD:1",
-                          () => const LeftContinuousLarge1Page()),
+                          () => LeftContinuousTargetPage(largeTarget, cdGain1)),
                       const SizedBox(height: 10),
                       getButton("Left Continuous Small CD:1",
-                          () => const LeftContinuousSmall1Page()),
+                          () => LeftContinuousTargetPage(smallTarget, cdGain1)),
                       const SizedBox(height: 30),
                     ]),
                 if (ddmIdValue == 4 ||
@@ -542,43 +580,51 @@ class _HomePageState extends State<HomePage> {
                     SliverList.list(children: [
                       // square
                       getButton("Right Square Large CD:1.5",
-                          () => const RightLarge15Page()),
+                          () => RightTargetPage(square, largeTarget, cdGain15)),
                       const SizedBox(height: 10),
                       getButton("Right Square Small CD:1.5",
-                          () => const RightSmall15Page()),
+                          () => RightTargetPage(square, smallTarget, cdGain15)),
                       const SizedBox(height: 10),
                       getButton("Right Square Large CD:1",
-                          () => const RightLarge1Page()),
+                          () => RightTargetPage(square, largeTarget, cdGain1)),
                       const SizedBox(height: 10),
                       getButton("Right Square Small CD:1",
-                          () => const RightSmall1Page()),
+                          () => RightTargetPage(square, smallTarget, cdGain1)),
                       const SizedBox(height: 30),
 
                       // circle
                       getButton("Right Circle Large CD:1.5",
-                          () => const RightLarge15Page()),
+                          () => RightTargetPage(circle, largeTarget, cdGain15)),
                       const SizedBox(height: 10),
                       getButton("Right Circle Small CD:1.5",
-                          () => const RightSmall15Page()),
+                          () => RightTargetPage(circle, smallTarget, cdGain15)),
                       const SizedBox(height: 10),
                       getButton("Right Circle Large CD:1",
-                          () => const RightLarge1Page()),
+                          () => RightTargetPage(circle, largeTarget, cdGain1)),
                       const SizedBox(height: 10),
                       getButton("Right Circle Small CD:1",
-                          () => const RightSmall1Page()),
+                          () => RightTargetPage(circle, smallTarget, cdGain1)),
                       const SizedBox(height: 30),
 
                       // continuous
-                      getButton("Right Continuous Large CD:1.5",
-                          () => const RightContinuousLarge15Page()),
+                      getButton(
+                          "Right Continuous Large CD:1.5",
+                          () =>
+                              RightContinuousTargetPage(largeTarget, cdGain15)),
                       const SizedBox(height: 10),
-                      getButton("Right Continuous Small CD:1.5",
-                          () => const RightContinuousSmall1Page()),
-                      getButton("Right Continuous Large CD:1",
-                          () => const RightContinuousLarge1Page()),
+                      getButton(
+                          "Right Continuous Small CD:1.5",
+                          () =>
+                              RightContinuousTargetPage(smallTarget, cdGain15)),
+                      getButton(
+                          "Right Continuous Large CD:1",
+                          () =>
+                              RightContinuousTargetPage(largeTarget, cdGain1)),
                       const SizedBox(height: 10),
-                      getButton("Right Continuous Small CD:1",
-                          () => const RightContinuousSmall1Page()),
+                      getButton(
+                          "Right Continuous Small CD:1",
+                          () =>
+                              RightContinuousTargetPage(smallTarget, cdGain1)),
                       const SizedBox(height: 30),
                     ]),
 
