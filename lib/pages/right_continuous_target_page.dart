@@ -228,7 +228,6 @@ class _RightContinuousTargetPageState
                   if (button == buttons[permutedList[currentButtonIndex]] &&
                       cursorNotifier.isCursorOnButton(button)) {
                     button.onTap(ref);
-                    reset();
                   }
                 }
               },
