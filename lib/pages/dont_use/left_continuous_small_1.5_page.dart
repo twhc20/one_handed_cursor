@@ -190,7 +190,7 @@ class _LeftContinuousSmall15PageState
               },
               onClose: () {
                 reset();
-              }),
+              }, onSwipe: (double ) {  },),
         if (isCursorDrawn) cursorWidget,
         if (currentButtonIndex == buttons.length)
           Positioned(

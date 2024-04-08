@@ -279,7 +279,7 @@ class _LeftTargetPageState extends ConsumerState<LeftTargetPage> {
               },
               onClose: () {
                 reset();
-              }),
+              }, onSwipe: (double ) {  },),
         if (isCursorDrawn) cursorWidget,
         if (next)
           Positioned(

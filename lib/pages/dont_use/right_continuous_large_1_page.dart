@@ -192,7 +192,7 @@ class _RightContinuousLarge1PageState
               },
               onClose: () {
                 reset();
-              }),
+              }, onSwipe: (double ) {  },),
         if (isCursorDrawn) cursorWidget,
         if (currentButtonIndex == buttons.length)
           Positioned(

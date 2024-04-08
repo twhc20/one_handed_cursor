@@ -192,7 +192,7 @@ class _LeftBig15ContinuousPageState
               },
               onClose: () {
                 reset();
-              }),
+              }, onSwipe: (double ) {  },),
         if (isCursorDrawn) cursorWidget,
         if (currentButtonIndex == buttons.length)
           Positioned(

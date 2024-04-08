@@ -170,29 +170,31 @@ class _LeftContinuousLarge1PageState
             buttons[permutedList[currentButtonIndex]],
         if (isTouchpadDrawn)
           TouchpadWidget(
-              cursorPositionX: cursorNotifier.getPositionX(),
-              cursorPositionY: cursorNotifier.getPositionY(),
-              initialLeft: touchpadRect.left,
-              initialTop: touchpadRect.top,
-              initialRight:
-                  MediaQuery.of(context).size.width - touchpadRect.right,
-              initialBottom:
-                  MediaQuery.of(context).size.height - touchpadRect.bottom,
-              updateDx: 1,
-              updateDy: 1,
-              onTouch: (x, y) {
-                cursorNotifier.updatePosition(x, y);
-              },
-              onTap: () {
-                for (var button in buttons) {
-                  if (cursorNotifier.isCursorOnButton(button)) {
-                    button.onTap(ref);
-                  }
+            cursorPositionX: cursorNotifier.getPositionX(),
+            cursorPositionY: cursorNotifier.getPositionY(),
+            initialLeft: touchpadRect.left,
+            initialTop: touchpadRect.top,
+            initialRight:
+                MediaQuery.of(context).size.width - touchpadRect.right,
+            initialBottom:
+                MediaQuery.of(context).size.height - touchpadRect.bottom,
+            updateDx: 1,
+            updateDy: 1,
+            onTouch: (x, y) {
+              cursorNotifier.updatePosition(x, y);
+            },
+            onTap: () {
+              for (var button in buttons) {
+                if (cursorNotifier.isCursorOnButton(button)) {
+                  button.onTap(ref);
                 }
-              },
-              onClose: () {
-                reset();
-              }),
+              }
+            },
+            onClose: () {
+              reset();
+            },
+            onSwipe: (double) {},
+          ),
         if (isCursorDrawn) cursorWidget,
         if (currentButtonIndex == buttons.length)
           Positioned(

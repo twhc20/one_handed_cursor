@@ -34,6 +34,7 @@ final touchpadNotifierProvider = StateNotifierProvider.family<TouchpadNotifer,
 class TouchpadWidget extends ConsumerStatefulWidget {
   final Function(double, double) onTouch;
   final Function() onTap;
+  final Function(double) onSwipe;
   final Function onClose;
 
   final double initialLeft;
@@ -56,6 +57,7 @@ class TouchpadWidget extends ConsumerStatefulWidget {
       required this.cursorPositionY,
       required this.onTouch,
       required this.onTap,
+      required this.onSwipe,
       required this.onClose,
       super.key});
 
@@ -93,6 +95,10 @@ class _TouchpadWidgetState extends ConsumerState<TouchpadWidget> {
           },
           onTap: () {
             widget.onTap();
+          },
+          onHorizontalDragEnd: (details) {
+            double velocity = details.velocity.pixelsPerSecond.dx;
+            widget.onSwipe(velocity);
           },
           child: Container(
             decoration: BoxDecoration(

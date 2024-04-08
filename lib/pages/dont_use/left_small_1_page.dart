@@ -223,7 +223,7 @@ class _LeftSmall1PageState extends ConsumerState<LeftSmall1Page> {
               },
               onClose: () {
                 reset();
-              }),
+              }, onSwipe: (double ) {  },),
         if (isCursorDrawn) cursorWidget,
         if (next)
           Positioned(

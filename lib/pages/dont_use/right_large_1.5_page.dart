@@ -227,7 +227,7 @@ class _RightLarge15PageState extends ConsumerState<RightLarge15Page> {
               },
               onClose: () {
                 reset();
-              }),
+              }, onSwipe: (double ) {  },),
         if (isCursorDrawn) cursorWidget,
         if (next)
           Positioned(

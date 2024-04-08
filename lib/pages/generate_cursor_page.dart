@@ -62,50 +62,50 @@ class _GenerateCursorPageState extends ConsumerState<GenerateCursorPage> {
   //           .instance.platformDispatcher.views.first.physicalSize.height /
   //       pixelRatio;
 
-    // for right hand small targets with seed 42
-    // generateRandomPositions(0, width / 2, 0, height / 2, 5, 0);
-    // generateRandomPositions(width / 2, width - 40, 0, height / 2, 5, 5);
-    // generateRandomPositions(0, width / 2, height / 2, height - 100, 5, 10);
-    // generateRandomPositions(width / 2, width, height / 2, height - 100, 5, 15);
+  // for right hand small targets with seed 42
+  // generateRandomPositions(0, width / 2, 0, height / 2, 5, 0);
+  // generateRandomPositions(width / 2, width - 40, 0, height / 2, 5, 5);
+  // generateRandomPositions(0, width / 2, height / 2, height - 100, 5, 10);
+  // generateRandomPositions(width / 2, width, height / 2, height - 100, 5, 15);
 
-    // for left hand small targets with seed 6
-    // generateRandomPositions(0, width / 2, 10, height / 2, 5, 0);
-    // generateRandomPositions(width / 2, width - 50, 20, height / 2, 5, 5);
-    // generateRandomPositions(0, width / 2, height / 2, height - 100, 5, 10);
-    // generateRandomPositions(width / 2, width, height / 2, height - 100, 5, 15);
+  // for left hand small targets with seed 6
+  // generateRandomPositions(0, width / 2, 10, height / 2, 5, 0);
+  // generateRandomPositions(width / 2, width - 50, 20, height / 2, 5, 5);
+  // generateRandomPositions(0, width / 2, height / 2, height - 100, 5, 10);
+  // generateRandomPositions(width / 2, width, height / 2, height - 100, 5, 15);
 
-    // left hand small continuous targets with seed 28
-    // generateRandomPositions(30, width - 30, 10, height / 2, 15, 0);
-    // generateRandomPositions(
-    //     width / 2, width - 50, height / 2, height - 100, 5, 15);
+  // left hand small continuous targets with seed 28
+  // generateRandomPositions(30, width - 30, 10, height / 2, 15, 0);
+  // generateRandomPositions(
+  //     width / 2, width - 50, height / 2, height - 100, 5, 15);
 
-    // right hand small continuous targets with seed 82
-    // generateRandomPositions(0, width - 30, 10, height / 2, 15, 0);
-    // generateRandomPositions(0, width / 2 - 100, height / 2, height - 100, 5, 15);
+  // right hand small continuous targets with seed 82
+  // generateRandomPositions(0, width - 30, 10, height / 2, 15, 0);
+  // generateRandomPositions(0, width / 2 - 100, height / 2, height - 100, 5, 15);
 
-    // for right hand large targets with seed 42
-    // generateRandomPositions(0, width / 2, 0, height / 2, 5, 0);
-    // generateRandomPositions(width / 2, width - 70, 0, height / 2, 5, 5);
-    // generateRandomPositions(0, width / 2, height / 2, height - 100, 5, 10);
-    // generateRandomPositions(
-    //     width / 2, width - 30, height / 2, height - 100, 5, 15);
+  // for right hand large targets with seed 42
+  // generateRandomPositions(0, width / 2, 0, height / 2, 5, 0);
+  // generateRandomPositions(width / 2, width - 70, 0, height / 2, 5, 5);
+  // generateRandomPositions(0, width / 2, height / 2, height - 100, 5, 10);
+  // generateRandomPositions(
+  //     width / 2, width - 30, height / 2, height - 100, 5, 15);
 
-    // for left hand large targets with seed 6
-    // generateRandomPositions(0, width / 2, 10, height / 2, 5, 0);
-    // generateRandomPositions(width / 2, width - 100, 20, height / 2, 5, 5);
-    // generateRandomPositions(0, width / 2, height / 2, height - 100, 5, 10);
-    // generateRandomPositions(
-    //     width / 2, width - 80, height / 2, height - 100, 5, 15);
+  // for left hand large targets with seed 6
+  // generateRandomPositions(0, width / 2, 10, height / 2, 5, 0);
+  // generateRandomPositions(width / 2, width - 100, 20, height / 2, 5, 5);
+  // generateRandomPositions(0, width / 2, height / 2, height - 100, 5, 10);
+  // generateRandomPositions(
+  //     width / 2, width - 80, height / 2, height - 100, 5, 15);
 
-    // left hand large continuous targets with seed 28
-    // generateRandomPositions(0, width - 30, 10, height / 2, 15, 0);
-    // generateRandomPositions(
-    //     width / 2, width - 70, height / 2, height - 100, 5, 15);
+  // left hand large continuous targets with seed 28
+  // generateRandomPositions(0, width - 30, 10, height / 2, 15, 0);
+  // generateRandomPositions(
+  //     width / 2, width - 70, height / 2, height - 100, 5, 15);
 
-    // right hand large continuous targets with seed 82
-    // generateRandomPositions(0, width - 70, 10, height / 2, 15, 0);
-    // generateRandomPositions(
-    //     0, width / 2 - 100, height / 2, height - 100, 5, 15);
+  // right hand large continuous targets with seed 82
+  // generateRandomPositions(0, width - 70, 10, height / 2, 15, 0);
+  // generateRandomPositions(
+  //     0, width / 2 - 100, height / 2, height - 100, 5, 15);
   // }
 
   void generateRandomPositions(double xLowerBound, double xUpperBound,
@@ -183,6 +183,11 @@ class _GenerateCursorPageState extends ConsumerState<GenerateCursorPage> {
                     button.onTap(ref);
                     reset();
                   }
+                }
+              },
+              onSwipe: (velocity) {
+                if (velocity < -1000) {
+                  reset();
                 }
               },
               onClose: () {
