@@ -185,11 +185,7 @@ class _GenerateCursorPageState extends ConsumerState<GenerateCursorPage> {
                   }
                 }
               },
-              onSwipe: (velocity) {
-                if (velocity < -1000) {
-                  reset();
-                }
-              },
+              onSwipe: (velocity) {},
               onClose: () {
                 reset();
               }),

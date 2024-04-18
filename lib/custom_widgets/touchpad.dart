@@ -96,10 +96,6 @@ class _TouchpadWidgetState extends ConsumerState<TouchpadWidget> {
           onTap: () {
             widget.onTap();
           },
-          onHorizontalDragEnd: (details) {
-            double velocity = details.velocity.pixelsPerSecond.dx;
-            widget.onSwipe(velocity);
-          },
           child: Container(
             decoration: BoxDecoration(
               color: Colors.grey.withOpacity(0.5),
