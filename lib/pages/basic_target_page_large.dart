@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:one_handed_cursor/custom_widgets/button.dart';
 import 'package:one_handed_cursor/custom_widgets/cursor.dart';
 import 'package:one_handed_cursor/helper_functions/random_list.dart';
+import 'package:one_handed_cursor/helper_functions/toast_time.dart';
 import 'package:one_handed_cursor/pages/home_page.dart';
 import 'package:one_handed_cursor/providers/button_index_provider.dart';
 import '../csv/csv.dart';
@@ -175,6 +176,7 @@ class _BasicTargetPageLargeState extends ConsumerState<BasicTargetPageLarge> {
                     stopWatch.reset();
                     splitStopwatch.reset();
                     rowsNoCursor.add(data);
+                    toastTime(context, data.last);
                     Navigator.pop(context);
                   },
                   child: const Text('Finished', style: TextStyle(fontSize: 30)),

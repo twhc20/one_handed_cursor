@@ -10,6 +10,7 @@ import 'package:one_handed_cursor/custom_widgets/shape_detector.dart';
 import 'package:one_handed_cursor/custom_widgets/touchpad.dart';
 import 'package:one_handed_cursor/helper_functions/random_list.dart';
 import 'package:one_handed_cursor/helper_functions/screen_helper.dart';
+import 'package:one_handed_cursor/helper_functions/toast_time.dart';
 import 'package:one_handed_cursor/pages/home_page.dart';
 import 'package:one_handed_cursor/providers/button_index_provider.dart';
 import 'package:one_handed_cursor/unistroke_recogniser/unistroke_recogniser.dart';
@@ -249,6 +250,7 @@ class _RightContinuousTargetPageState
                   onPressed: () {
                     stopWatch.reset();
                     continuousRowsCursor.add(data);
+                    toastTime(context, data.last);
                     Navigator.pop(context);
                   },
                   child: const Text('Finished', style: TextStyle(fontSize: 30)),
