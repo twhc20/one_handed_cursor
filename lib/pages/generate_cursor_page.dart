@@ -62,6 +62,9 @@ class _GenerateCursorPageState extends ConsumerState<GenerateCursorPage> {
   //           .instance.platformDispatcher.views.first.physicalSize.height /
   //       pixelRatio;
 
+  //   print('width: $width, height: $height, pixelRatio: $pixelRatio');
+  //   print('button width: ${buttons[0].width}, button height: ${buttons[0].height}');
+  // }
   // for right hand small targets with seed 42
   // generateRandomPositions(0, width / 2, 0, height / 2, 5, 0);
   // generateRandomPositions(width / 2, width - 40, 0, height / 2, 5, 5);

@@ -7,8 +7,10 @@ import 'package:one_handed_cursor/custom_widgets/touchpad.dart';
 const String pageId = 'basic_cursor_page';
 
 final buttons = [
-  const Button(buttonId: '1', x: 16.0, y: 100.0, pageId: pageId),
-  const Button(buttonId: '2', x: 16.0, y: 250.0, height: 67.5, width: 67.5, pageId: pageId),
+  const Button(
+      buttonId: '1', x: 16.0, y: 100.0, height: 24, width: 24, pageId: pageId),
+  const Button(
+      buttonId: '2', x: 16.0, y: 250.0, height: 48, width: 48, pageId: pageId),
 ];
 
 class BasicCursorPage extends ConsumerWidget {
@@ -30,26 +32,27 @@ class BasicCursorPage extends ConsumerWidget {
             ...buttons,
             cursorWidget,
             TouchpadWidget(
-                cursorPositionX: cursorNotifier.getPositionX(),
-                cursorPositionY: cursorNotifier.getPositionY(),
-                initialLeft: 170,
-                initialTop: 550,
-                initialRight: 30,
-                initialBottom: 50,
-                updateDx: 1,
-                updateDy: 1,
-                onTouch: (x, y) {
-                  cursorNotifier.updatePosition(x, y);
-                },
-                onTap: () {
-                  for (var button in buttons) {
-                    if (cursorNotifier.isCursorOnButton(button)) {
-                      button.onTap(ref);
-                    }
+              cursorPositionX: cursorNotifier.getPositionX(),
+              cursorPositionY: cursorNotifier.getPositionY(),
+              initialLeft: 170,
+              initialTop: 550,
+              initialRight: 30,
+              initialBottom: 50,
+              updateDx: 1,
+              updateDy: 1,
+              onTouch: (x, y) {
+                cursorNotifier.updatePosition(x, y);
+              },
+              onTap: () {
+                for (var button in buttons) {
+                  if (cursorNotifier.isCursorOnButton(button)) {
+                    button.onTap(ref);
                   }
-                },
-                
-                onClose: () {}, onSwipe: (double ) {  },),
+                }
+              },
+              onClose: () {},
+              onSwipe: (double) {},
+            ),
           ],
         ));
   }

@@ -15,8 +15,8 @@ class LargeButton extends ConsumerWidget {
   const LargeButton(
       {this.x = 0,
       this.y = 0,
-      this.width = 67.5,
-      this.height = 67.5,
+      this.width = 48,
+      this.height = 48,
       required this.buttonId,
       required this.pageId,
       super.key});
@@ -46,7 +46,7 @@ class LargeButton extends ConsumerWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.0),
+                    borderRadius: BorderRadius.circular(5),
                   ),
                 ),
                 child: const Text(''),
